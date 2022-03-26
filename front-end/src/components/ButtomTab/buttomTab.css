@@ -1,0 +1,29 @@
+.tab {
+    width: 3.75rem;
+    height: .4rem;
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.tab-container {
+    width: 3.75rem;
+    height: .4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.tab-container div {
+    width: 0.9375rem;
+    /* height: .4rem; */
+    font-size: .08rem;
+    text-align: center;
+    line-height: .15rem;
+}
+.itemClick {
+    color: #ceac51;
+}
+.tab-container img {
+    width: 0.2rem;
+    height: 0.2rem;
+}
