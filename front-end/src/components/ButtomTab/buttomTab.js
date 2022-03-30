@@ -35,6 +35,7 @@ function ButtomTab() {
         navigate('/index/my')
         setIndex(3)
     }
+    
 
 
     useEffect(() => {

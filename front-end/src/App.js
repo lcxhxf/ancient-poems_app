@@ -5,6 +5,7 @@ import { GlobalStyle } from  './style';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ButtomTab from './components/ButtomTab/buttomTab';
 import Login from './components/Login/login'
+import Register from './components/Register/register'
 
 function App() {
   let routes = useRoutes(ALLRoutes);
@@ -33,6 +34,7 @@ function App() {
                 <Routes>
                     <Route path="/*" element={<ButtomTab />} ></Route>
                     <Route path="/login" element={<Login />} ></Route>
+                    <Route path="/register" element={<Register />} ></Route>
                 </Routes>
             </div>
     </div>
