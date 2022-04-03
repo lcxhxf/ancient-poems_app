@@ -16,7 +16,7 @@ class LoginController extends Controller {
   async checkLogin(){
     let userName = this.ctx.request.body.userName
     let password = this.ctx.request.body.password
-    const sql = " SELECT userName FROM user WHERE userName = '"+userName +
+    const sql = " SELECT userName, headPicPath, personalizedSig, sex, brith FROM user WHERE userName = '"+userName +
                 "' AND password = '"+password+"'"
 
     const res = await this.app.mysql.query(sql)

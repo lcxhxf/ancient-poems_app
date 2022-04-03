@@ -5,6 +5,7 @@ import logoImg from '../../assets/login/古诗文logo.png'
 import { useNavigate } from 'react-router-dom';
 import servicePath from '../../config/apiUrl';
 import axios from 'axios'
+import { Toast } from 'antd-mobile'
 
 function Login(props) {
   const [userName,setUserName] = useState()
@@ -29,11 +30,19 @@ function Login(props) {
   const checkLogin = ()=>{    // 登录方法
 
     if(!userName){
-      alert('用户名不能为空')
+      Toast.show({
+        content: '用户名不能为空',
+        duration: 1000,
+      })
+      // alert('用户名不能为空')
         // message.error('用户名不能为空')
         return false
     }else if(!password){
-      alert('密码不能为空')
+      Toast.show({
+        content: '密码不能为空',
+        duration: 1000,
+      })
+      // alert('密码不能为空')
         // message.error('密码不能为空')
         return false
     }
@@ -51,8 +60,14 @@ function Login(props) {
             // setIsLoading(false)
             if(res.data.data=='登录成功'){
                 localStorage.setItem('openId',res.data.openId)
-                console.log('res.data.res:'+res.data.res[0]);
+                localStorage.setItem('userName',res.data.res[0].userName)
+                localStorage.setItem('headPicPath',res.data.res[0].headPicPath)
+                localStorage.setItem('personalizedSig',res.data.res[0].personalizedSig)
+                localStorage.setItem('sex',res.data.res[0].sex)
+                localStorage.setItem('brith',res.data.res[0].brith)
+                console.log('res.data.res:'+res.data.res[0].userName);
                 navigate('/index/my')
+                
                 // props.history.push('/index/my')
             }else{
                 // message.error('用户名密码错误')

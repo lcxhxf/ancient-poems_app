@@ -6,6 +6,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ButtomTab from './components/ButtomTab/buttomTab';
 import Login from './components/Login/login'
 import Register from './components/Register/register'
+import MyDetail from './components/MyDetail/myDetail';
+import UpdateHeadPic from './components/UpdateHeadPic/updateHeadPic';
+import UpdateUserName from './components/UpdateUserName/updateUserName';
+import UpdatePassword from './components/UpdatePassword/updatePassword';
+import UpdateSex from './components/UpdateSex/updateSex'
+import UpdatePersonalizedSig from './components/UpdatePersonalizedSig/UpdatePersonalizedSig'
+import UpdateBrith from './components/UpdateBrith/updateBrith'
 
 function App() {
   let routes = useRoutes(ALLRoutes);
@@ -32,9 +39,17 @@ function App() {
       <GlobalStyle></GlobalStyle>
       <div className="router">
                 <Routes>
-                    <Route path="/*" element={<ButtomTab />} ></Route>
-                    <Route path="/login" element={<Login />} ></Route>
-                    <Route path="/register" element={<Register />} ></Route>
+                    <Route path="/*" element={<ButtomTab />} ></Route>                  {/*tabbar界面*/}
+                    <Route path="/login" element={<Login />} ></Route>                  {/*登录界面*/}
+                    <Route path="/register" element={<Register />} ></Route>            {/*注册界面*/}
+                    <Route path="/index/my/myDetail" element={<MyDetail />} ></Route>   {/*个人信息详情界面*/}
+
+                    <Route path="/index/my/myDetail/updateHeadPic" element={<UpdateHeadPic />} ></Route>      {/*修改头像界面*/}
+                    <Route path="/index/my/myDetail/updateUserName" element={<UpdateUserName />} ></Route>    {/*修改用户名界面*/}
+                    <Route path="/index/my/myDetail/updatePassword" element={<UpdatePassword />} ></Route>    {/*修改密码界面*/}
+                    <Route path="/index/my/myDetail/updateSex" element={<UpdateSex />} ></Route>              {/*修改性别界面*/}
+                    <Route path="/index/my/myDetail/updatePersonalizedSig" element={<UpdatePersonalizedSig />} ></Route>       {/*修改个性签名界面*/}
+                    <Route path="/index/my/myDetail/updateBrith" element={<UpdateBrith />} ></Route>          {/*修改生日界面*/}
                 </Routes>
             </div>
     </div>

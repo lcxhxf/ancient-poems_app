@@ -1,0 +1,31 @@
+{
+    "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "chrome": "49",
+              "ios": "10"
+            }
+          }
+        ]
+      ],
+    "plugins": [
+        [
+            "import",
+            {
+                "libraryName": "antd",
+                "libraryDirectory": "lib"
+            },
+            "antd"
+        ],
+        [
+            "import",
+            {
+                "libraryName": "antd-mobile",
+                "libraryDirectory": "lib"
+            },
+            "antd-mobile"
+        ]
+    ]
+}

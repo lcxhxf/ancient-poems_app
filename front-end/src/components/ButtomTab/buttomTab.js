@@ -5,7 +5,8 @@ import Index from '../../application/Index';
 import Sort from '../../application/Sort/sort'
 import Find from '../../application/Find/find'
 import My from '../../application/My/my'
-import { useNavigate } from 'react-router-dom';
+import MyDetail from '../MyDetail/myDetail';
+import { useNavigate, useRoutes } from 'react-router-dom';
 import indexImg from '../../assets/buttomTab/首页-fill.png'
 import indexActiveImg from '../../assets/buttomTab/首页-fill (1).png'
 import sortImg from '../../assets/buttomTab/分类.png'
@@ -35,21 +36,51 @@ function ButtomTab() {
         navigate('/index/my')
         setIndex(3)
     }
-    
+
 
 
     useEffect(() => {
         goIndex()
     }, [])
+    let element = useRoutes([
+        {
+            path: "/",
+            element: <Index />,
+        },
+        {
+            path: "/index/index",
+            element: <Index />,
+        },
+        {
+            path: "/index/sort",
+            element: <Sort />,
+        },
+        {
+            path: "/index/find",
+            element: <Find />,
+        },
+        {
+            path: "/index/my",
+            element: <My />,
+            // children: [
+            //     {
+            //         path: "/index/my/myDetail",
+            //         element: <MyDetail />,
+            //     }
+            // ],
+        },
+    ]);
+
     return (
         <div className="body">
             <div className="router">
-                <Routes>
+            {element}
+                {/* <Routes>
                     <Route path="/index/index" element={<Index />} ></Route>
                     <Route path="/index/sort" element={<Sort />} ></Route>
                     <Route path="/index/find" element={<Find />} ></Route>
                     <Route path="/index/my" element={<My />} ></Route>
-                </Routes>
+                </Routes> */}
             </div>
             <div className='tab'>
                 <div className='tab-container'>

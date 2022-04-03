@@ -1,0 +1,17 @@
+.myInfo  {
+    display: flex;
+    flex: 1;
+}
+.myName {
+    margin-left: .2rem;
+}
+.myName-userName {
+    margin-top: .15rem;
+    font-size: 18px;
+    font-weight: 900;
+}
+.myName-personalizedSig {
+    margin-top: .22rem;
+    font-size: 10px;
+    color: #DCDCDC;
+}

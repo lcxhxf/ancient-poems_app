@@ -1,6 +1,6 @@
 .tab {
     width: 3.75rem;
-    height: .4rem;
+    height: .45rem;
     position: fixed;
     bottom: 0px;
     left: 50%;
@@ -9,9 +9,11 @@
 
 .tab-container {
     width: 3.75rem;
-    height: .4rem;
+    height: .45rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    background-color: #fff;
 }
 .tab-container div {
     width: 0.9375rem;
