@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+/**
+ * @description 底部tabbar及四个tab对应的页面
+ */
+import React, { useEffect, useRef, useState } from 'react';
 import './buttomTab.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useHistory } from "react-router-dom";
 import Index from '../../application/Index';
 import Sort from '../../application/Sort/sort'
 import Find from '../../application/Find/find'
 import My from '../../application/My/my'
 import MyDetail from '../MyDetail/myDetail';
-import { useNavigate, useRoutes } from 'react-router-dom';
+import { useNavigate, useRoutes, useLocation } from 'react-router-dom';
 import indexImg from '../../assets/buttomTab/首页-fill.png'
 import indexActiveImg from '../../assets/buttomTab/首页-fill (1).png'
 import sortImg from '../../assets/buttomTab/分类.png'
@@ -17,8 +20,32 @@ import myImg from '../../assets/buttomTab/我的-我的.png'
 import myActiveImg from '../../assets/buttomTab/我的-我的 (1).png'
 
 function ButtomTab() {
-    const [index, setIndex] = useState(0)
 
+    // 初始化index的值
+    const location = useLocation()
+    const { pathname } = location
+    // console.log(pathname);
+    let ref
+    switch (pathname) {
+        case '/index/index':
+            ref = 0
+            break;
+        case '/index/sort':
+            ref = 1
+            break;
+        case '/index/find':
+            ref = 2
+            break;
+        case '/index/my':
+            ref = 3
+            break;
+    }  
+    // console.log('ref:',ref);
+    const [index, setIndex] = useState(ref)
+
+
+
+    // 根据点击跳转到路由相应的子路由
     let navigate = useNavigate();
     const goIndex = () => {
         navigate('/index/index')
@@ -40,7 +67,7 @@ function ButtomTab() {
 
 
     useEffect(() => {
-        goIndex()
+        // goIndex()
     }, [])
     let element = useRoutes([
         {
@@ -74,7 +101,7 @@ function ButtomTab() {
     return (
         <div className="body">
             <div className="router">
-            {element}
+                {element}
                 {/* <Routes>
                     <Route path="/index/index" element={<Index />} ></Route>
                     <Route path="/index/sort" element={<Sort />} ></Route>

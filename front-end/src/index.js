@@ -1,3 +1,6 @@
+/**
+ * @description 入口文件，挂载app.js
+ */
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';

@@ -1,3 +1,6 @@
+/**
+ * @description 我的界面
+ */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './my.css'
@@ -19,6 +22,8 @@ import {
 function My(props) {
 
   let navigate = useNavigate();
+
+  // 从localStorage取出用户信息
   let openId = localStorage.getItem('openId')
   let userName = localStorage.getItem('userName')
   let headPicPath = localStorage.getItem('headPicPath')
@@ -28,14 +33,16 @@ function My(props) {
 
   // console.log('openId:'+openId);
   // console.log('userName:'+userName);
-  console.log('headPicPath:'+headPicPath);
+  // console.log('headPicPath:'+headPicPath);
 
+  // 路由跳转
   const goLogin = () => {
     navigate('/login')
   }
   const goMyDetail = () => {
     navigate('/index/my/myDetail')
   }
+  
   return (
     <div>
       {userName === null
@@ -50,7 +57,7 @@ function My(props) {
             <h1>生日：{brith}</h1>
           </div> */}
           <List>
-            <List.Item extra='主页' onClick={goMyDetail} className="myInfo">
+            <List.Item extra='主页' onClick={goMyDetail} >
               <div className="myInfo">
                 <div className=""><Avatar size={80} src={headPicPath} className='myPic'/></div>
                 <div className="myName">

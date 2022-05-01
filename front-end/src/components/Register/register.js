@@ -1,3 +1,6 @@
+/**
+ * @description 注册界面
+ */
 import React, { Fragment, useState } from 'react';
 import './register.css'
 import returnImg from '../../assets/login/返回箭头.png'
@@ -8,27 +11,32 @@ import axios from 'axios'
 import { Toast } from 'antd-mobile'
 
 function Register(props) {
-  const [userName, setUserName] = useState()
-  const [password, setPassword] = useState()
-  const [confirmPassword, setConfirmPassword] = useState()
+
+  const [userName, setUserName] = useState()  // 存用户名
+  const [password, setPassword] = useState()  // 存密码
+  const [confirmPassword, setConfirmPassword] = useState()  // 存确认密码
+
   let navigate = useNavigate();
   const goBack = () => {
     navigate('/index/index')
   }
+
   const userNameChange = () => {    // 拿到用户名
     let name = document.getElementsByClassName("form-name")[0].value;
     setUserName(name)
   }
+
   const passwordChange = () => {    // 拿到密码
     let password = document.getElementsByClassName("form-password")[0].value;
     setPassword(password)
   }
+
   const confirmPasswordChange = () => {    // 拿到确认密码
     let confirmPassword = document.getElementsByClassName("confirmPassword")[0].value;
     setConfirmPassword(confirmPassword)
   }
-  const register = () => {    // 注册方法
 
+  const register = () => {    // 注册方法
     if (!userName) {
       Toast.show({
         content: '用户名不能为空',
@@ -62,7 +70,7 @@ function Register(props) {
       return false
     }
 
-    let dataProps = {
+    let dataProps = {   // 请求的数据格式
       'userName': userName,
       'password': password,
       'headPicPath':'https://s2.loli.net/2022/03/31/hPbn74XEKI9dVqW.png',
@@ -70,6 +78,7 @@ function Register(props) {
       'sex': 1,
       'brith':'2022-03-27'
     }
+
     axios({
       method: 'post',
       url: servicePath.register,
@@ -79,17 +88,25 @@ function Register(props) {
       res => {
         // setIsLoading(false)
         if (res.data.data == '注册成功') {
-          
-          alert('注册成功')
+          Toast.show({
+            content: '注册成功',
+            duration: 1000,
+          })
+          // alert('注册成功')
           navigate('/index/my')
           // props.history.push('/index/my')
         } else {
           // message.error('用户名密码错误')
-          alert('注册失败了呢')
+          Toast.show({
+            content: '注册失败了呢',
+            duration: 1000,
+          })
+          // alert('注册失败了呢')
         }
       }
     )
   }
+  
   return (
     <Fragment>
       <div className="header">

@@ -1,4 +1,5 @@
 .myInfo  {
+    width: 100%;
     display: flex;
     flex: 1;
 }
@@ -14,4 +15,7 @@
     margin-top: .22rem;
     font-size: 10px;
     color: #DCDCDC;
+}
+a:hover {
+    color: #ceac51!important;
 }

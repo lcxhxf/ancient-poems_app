@@ -1,10 +1,12 @@
 'use strict';
-
+/**
+ * @description 登录controller
+ */
 const Controller = require('egg').Controller;
 
 class LoginController extends Controller {
 
-  async login() {
+  async login() {   // 登录
     //获取用户表的数据
 
     let result = await this.app.mysql.get("user",{})
@@ -16,7 +18,7 @@ class LoginController extends Controller {
   async checkLogin(){
     let userName = this.ctx.request.body.userName
     let password = this.ctx.request.body.password
-    const sql = " SELECT userName, headPicPath, personalizedSig, sex, brith FROM user WHERE userName = '"+userName +
+    const sql = " SELECT userId, userName, headPicPath, personalizedSig, sex, brith FROM user WHERE userName = '"+userName +
                 "' AND password = '"+password+"'"
 
     const res = await this.app.mysql.query(sql)

@@ -1,10 +1,12 @@
 'use strict';
-
+/**
+ * @description 注册controller
+ */
 const Controller = require('egg').Controller;
 
 class RegisterController extends Controller {
 
-  async register() {
+  async register() {    // 注册
     let userName = this.ctx.request.body.userName
     let password = this.ctx.request.body.password
     const sql = " SELECT userName, headPicPath, personalizedSig, sex, brith FROM user WHERE userName = '" + userName +  // 查询数据库是否已经注册

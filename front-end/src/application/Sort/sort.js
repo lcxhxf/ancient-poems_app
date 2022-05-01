@@ -1,14 +1,23 @@
+/**
+ * @description 分类界面
+ */
 import React from 'react';
 import { Tabs, IndexBar, List, Grid } from 'antd-mobile'
+import { useNavigate } from 'react-router-dom';
 import './sort.css'
 
 function Sort(props) {
+  let navigate = useNavigate();
+  
+  // mock假数据
   const getRandomList = (min, max) => {
     return new Array(Math.floor(Math.random() * (max - min) + min)).fill('')
   }
-
   const groups = [{ title: '类型', items: getRandomList(50, 75).map(() => '诗经') }, { title: '作者', items: getRandomList(50, 75).map(() => '李白') }, { title: '朝代', items: getRandomList(50, 75).map(() => '先秦') }, { title: '形式', items: getRandomList(150, 225).map(() => '诗') }]
 
+  const goSortDetail = () => {
+    navigate('/index/sort/sortDetail')
+  }
   return (
     <div>
       <Tabs>
@@ -23,9 +32,9 @@ function Sort(props) {
                     title={`${title}`}
                     key={`标题${title}`}
                   >
-                    <Grid columns={4} gap={8}>
+                    <Grid columns={4} gap={18}>
                     {items.map((item, index) => (
-                        <Grid.Item key={index}>
+                        <Grid.Item key={index} onClick={goSortDetail}>
                         <div className='grid-demo-item-block'>{item}</div>
                       </Grid.Item>
                       ))}

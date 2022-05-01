@@ -1,3 +1,6 @@
+/**
+ * @description 底部tabbar对应的路由文件，四个子路由
+ */
 import React, { Suspense } from 'react';
 import Index from '../application/Index/index';
 import Sort from '../application/Sort/sort'

@@ -1,6 +1,9 @@
+/**
+ * @description 个人信息详情界面
+ */
 import React, { Fragment, useState } from 'react';
 import './myDetail.css'
-import { NavBar, Toast, List, Avatar } from 'antd-mobile'
+import { NavBar, List, Avatar } from 'antd-mobile'
 import {
   UnorderedListOutline,
   PayCircleOutline,
@@ -11,19 +14,27 @@ import logoImg from '../../assets/login/古诗文logo.png'
 import { useNavigate } from 'react-router-dom';
 import servicePath from '../../config/apiUrl';
 import axios from 'axios'
+import { CSSTransition } from 'react-transition-group';
+import { Container } from './style';
 
 function MyDetail(props) {
 
   let navigate = useNavigate();
+
+  // 从localStorage拿到用户信息
   let userName = localStorage.getItem('userName')
   let headPicPath = localStorage.getItem('headPicPath')
   let personalizedSig = localStorage.getItem('personalizedSig')
   let sex = localStorage.getItem('sex')
   let brith = localStorage.getItem('brith')
+  let myDate = new Date(brith);
 
+  // 路由跳转
+  const [showStatus, setShowStatus] = useState(true);     // 控制页面跳转动画
   const back = () => {
-    navigate('/index/my')
+    setShowStatus(false)
   }
+
   const goUpdateHeadPic = () => {
     navigate('/index/my/myDetail/updateHeadPic')
   }
@@ -44,30 +55,40 @@ function MyDetail(props) {
   }
 
   return (
-    <Fragment>
-      <div className="header">
-        <NavBar onBack={back}>个人信息</NavBar>
-        <List header=''>
-          <List.Item extra={<Avatar size={160} src={headPicPath} />} onClick={goUpdateHeadPic}>头像</List.Item>
-          <List.Item extra={userName} onClick={goUpdateUserName}>
-            用户名
-          </List.Item>
-          <List.Item extra={sex == 1?'男':'女'} onClick={goUpdateSex}>
-            性别
-          </List.Item>
-          <List.Item onClick={goUpdatePassword}>
-            修改密码
-          </List.Item>
-          <List.Item extra={personalizedSig} onClick={goUpdatePersonalizedSig}>
-            个性签名
-          </List.Item>
-          <List.Item extra={brith} onClick={goUpdateBrith}>
-            生日
-          </List.Item>
-        </List>
-      </div>
-    </Fragment>
-
+    <CSSTransition
+      in={showStatus}
+      timeout={300}
+      classNames="fly"
+      appear={true}
+      unmountOnExit
+      onExited={() => navigate('/index/my')}
+    >
+      <Container>
+        <Fragment>
+          <div>
+            <NavBar onBack={back}>个人信息</NavBar>
+            <List header=''>
+              <List.Item extra={<Avatar size={20} src={headPicPath} />} onClick={goUpdateHeadPic}>头像</List.Item>
+              <List.Item extra={userName} onClick={goUpdateUserName}>
+                用户名
+              </List.Item>
+              <List.Item extra={sex == 1 ? '男' : '女'} onClick={goUpdateSex}>
+                性别
+              </List.Item>
+              <List.Item onClick={goUpdatePassword}>
+                修改密码
+              </List.Item>
+              <List.Item extra={personalizedSig} onClick={goUpdatePersonalizedSig}>
+                个性签名
+              </List.Item>
+              <List.Item extra={myDate.toLocaleDateString()} onClick={goUpdateBrith}>
+                生日
+              </List.Item>
+            </List>
+          </div>
+        </Fragment>
+      </Container>
+    </CSSTransition>
   )
 }
 

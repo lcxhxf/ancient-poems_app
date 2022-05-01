@@ -4,6 +4,7 @@
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
+ * @description 插件配置文件
  */
 module.exports = appInfo => {
   /**
@@ -21,6 +22,9 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+  };
+  config.multipart = {
+    mode: 'file'
   };
   config.mysql = {    // 配置mysql数据库
     // database configuration

@@ -1,3 +1,6 @@
+/**
+ * @description 登录界面
+ */
 import React, { Fragment, useState } from 'react';
 import './login.css'
 import returnImg from '../../assets/login/返回箭头.png'
@@ -60,18 +63,27 @@ function Login(props) {
             // setIsLoading(false)
             if(res.data.data=='登录成功'){
                 localStorage.setItem('openId',res.data.openId)
+                localStorage.setItem('userId',res.data.res[0].userId)
                 localStorage.setItem('userName',res.data.res[0].userName)
                 localStorage.setItem('headPicPath',res.data.res[0].headPicPath)
                 localStorage.setItem('personalizedSig',res.data.res[0].personalizedSig)
                 localStorage.setItem('sex',res.data.res[0].sex)
                 localStorage.setItem('brith',res.data.res[0].brith)
-                console.log('res.data.res:'+res.data.res[0].userName);
+                console.log('res.data.res.userId:'+res.data.res[0].userId);
+                Toast.show({
+                  content: '登录成功',
+                  duration: 1000,
+                })
                 navigate('/index/my')
                 
                 // props.history.push('/index/my')
             }else{
                 // message.error('用户名密码错误')
-                alert('用户名密码错误')
+                Toast.show({
+                  content: '用户名密码错误',
+                  duration: 1000,
+                })
+                // alert('用户名密码错误')
             }
        }
     )
