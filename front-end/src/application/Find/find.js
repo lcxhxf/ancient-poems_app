@@ -12,7 +12,7 @@ const imgSrc = ['https://s2.loli.net/2022/04/01/FxgqQIXMlpRO8yw.jpg', 'https://s
 
 const items = colors.map((color, index) => (    // 轮播图设置
   <Swiper.Item key={index}>
-    {console.log(index)}
+    {/* {console.log(index)} */}
     <div
       className='content'
       style={{ background: color }}

@@ -20,28 +20,41 @@ function UpdateHeadPic() {
         let file = document.querySelector('#uploadFile').files[0]
         console.log('file:', file);
         let formData = new FormData()
+        let userId = localStorage.getItem('userId')
         // formData.append("lc", 1234567)
 
         formData.append("uploadFile", file)
-        console.log('formData.get(uploadFile):', formData.get('uploadFile'));
+        formData.append("userId", userId)
+        // console.log('formData.get(uploadFile):', formData.get('uploadFile'));
         // console.log('formData.get(lc):',formData.get('lc'));
         // console.log('formData:' , formData);
 
-        axios({
-            url: servicePath.headPicUpdate,
-            method: 'post',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            formData,
-            processData: false,
+        axios.post(servicePath.headPicUpdate, formData)
+        .then(function (response) {
+            localStorage.setItem('headPicPath',response.data.url)
+            navigate('/index/my/myDetail')
+            console.log(response);
         })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .catch(function (error) {
+            // console.log(error);
+        });
+        
+        // axios({
+        //     url: servicePath.headPicUpdate,
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data;charset=utf-8'
+        //     },
+        //     formData,
+        //     processData: false
+        // })
+        //     .then(function (response) {
+        //         navigate('/index/my/myDetail')
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
 
     }
 
@@ -88,7 +101,21 @@ function UpdateHeadPic() {
                 onChange={setFileList}
                 upload={mockUpload}
             /> */}
-                    图片上传：<input id="uploadFile" type="file" />
+                    图片上传：<input id="uploadFile" type="file" name="file" />
+
+                    {/* <form
+                        method="POST"
+                        action="http://127.0.0.1:7001/headPicUpdate"
+                        encType="multipart/form-data"
+                    >
+                        图片上传：<input name="file" id="uploadFile" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" multiple />
+                        <button type="submit" onClick={upload}>Upload</button>
+                    </form> */}
+
+                    {/* <form action="http://127.0.0.1:7001/headPicUpdate" method="post" encType="multipart/form-data">
+                        <input type="file" name="file" />
+                        <input type="submit" value="上传" />
+                    </form> */}
                 </div>
             </Container>
         </CSSTransition>

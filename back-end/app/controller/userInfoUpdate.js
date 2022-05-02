@@ -77,25 +77,35 @@ class userInfoUpdateController extends Controller {
     async headPicUpdate() {         // 修改用户头像
         const path = require('path')
         const fs = require('fs')
-        const { ctx } = this;
-        // console.log(ctx.request.body);
-        const file = ctx.request.files[0]
-        console.log('file:'+file);
 
+        const { ctx } = this;      
+        // console.log('this:',this);
+        let userId = this.ctx.request.body.userId
+        // console.log('userId:',userId);
+        const file = ctx.request.files[0]
+        // console.log('file:'+file);
+
+        // 生成路径名
         const toFileName = '/public/upload/' + Date.now() + file.filename;
         const to = path.dirname(__dirname) + toFileName;
-        //拷贝图片至本地
+
+        // 拷贝图片至本地
         // console.log('file.filepath:'+file.filepath);
         await fs.copyFileSync(file.filepath, to)
         // await fs.unlinkSync(file.filepath)
+        
+        // 返回前端路径
         const newUrl = "http://127.0.0.1:7001" + toFileName;
         // console.log(this.ctx.request.files[0])
+        
+        // 存储到数据库
+        const results = await this.app.mysql.query('update user set headPicPath = ? where userId = ?', [newUrl, userId]);
         ctx.body = {
-            msg: 'ok',
+            msg: '图片上传成功',
             url: newUrl
         }
+        // ctx.redirect('http://localhost:3000/index/my/myDetail');
     }
-
 }
 
 module.exports = userInfoUpdateController;

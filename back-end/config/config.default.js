@@ -60,3 +60,7 @@ module.exports = appInfo => {
     ...userConfig,
   };
 };
+exports.multipart = {
+  mode: 'file',
+};
+
