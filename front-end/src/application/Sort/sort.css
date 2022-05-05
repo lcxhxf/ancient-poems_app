@@ -26,3 +26,6 @@
 .adm-index-bar-sidebar-row {
   padding: unset!important;
 }
+.adm-tabs-content > div{
+  height: 567px!important;
+}

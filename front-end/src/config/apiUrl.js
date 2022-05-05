@@ -13,5 +13,12 @@ let servicePath = {
     birthUpdate:ipUrl + 'birthUpdate' ,  //  用户生日修改
     headPicUpdate:ipUrl + 'headPicUpdate',  // 用户头像修改
     QuerySomeonePoems:ipUrl + 'QuerySomeonePoems',  // 查询某人的诗词
+    QueryRandomTenPoems:ipUrl + 'QueryRandomTenPoems',  // 查询随机的十首诗词
+    QuerySomeTypePoem:ipUrl + 'QuerySomeTypePoem',  // 查询某种类型十首诗词
+    FuzzySearch:ipUrl + 'FuzzySearch',  // 模糊查询，推荐
+    Search:ipUrl + 'Search',  // 搜索框查询诗词
+    SearchType:ipUrl + 'SearchType',  // 搜索诗词的所有类别
+    SearchPoet:ipUrl + 'SearchPoet',  // 查询诗人表的所有诗人
+    SearchDynasty:ipUrl + 'SearchDynasty',  // 查询朝代表的所有朝代
 }
 export default servicePath;

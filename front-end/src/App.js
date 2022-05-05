@@ -20,6 +20,8 @@ import PoemDetail from './components/PoemDetail/poemDetail';
 import Search from './components/Search/search';
 import SortDetail from './components/SortDetail/sortDetail';
 import FindDetail from './components/FindDetail/findDetail';
+import SearchPoemDetail from './components/SearchPoemDetail/searchPoemDetail';
+import SortPoemDetail from './components/SortPoemDetail/sortPoemDetail';
 
 function App() {
   let routes = useRoutes(ALLRoutes);
@@ -52,8 +54,11 @@ function App() {
                     <Route path="/register" element={<Register />} ></Route>            {/*注册界面*/}
                     <Route path="/index/my/myDetail" element={<MyDetail />} ></Route>   {/*个人信息详情界面*/}
                     <Route path="/index/index/poemDetail/:id" element={<PoemDetail />} ></Route>          {/*诗词详情界面*/}
-                    <Route path="/index/index/search" element={<Search/>} ></Route>          {/*诗词详情界面*/}
-                    <Route path="/index/sort/sortDetail" element={<SortDetail/>} ></Route>          {/*分类详情界面*/}
+                    <Route path="/index/index/search" element={<Search/>} ></Route>          {/*搜索详情界面*/}
+                    <Route path="/index/index/search/searchPoemDetail/:id" element={<SearchPoemDetail/>} ></Route>          {/*搜索诗词详情界面*/}
+                    <Route path="/index/index/sort/sortDetail/:type/:id" element={<SortPoemDetail/>} ></Route>          {/*分类诗词详情界面*/}
+
+                    <Route path="/index/sort/sortDetail/:type" element={<SortDetail/>} ></Route>          {/*分类详情界面*/}
                     <Route path="/index/find/findDetail" element={<FindDetail/>} ></Route>          {/*发现详情界面*/}
 
                     <Route path="/index/my/myDetail/updateHeadPic" element={<UpdateHeadPic />} ></Route>      {/*修改头像界面*/}

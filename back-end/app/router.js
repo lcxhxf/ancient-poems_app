@@ -18,4 +18,12 @@ module.exports = app => {
   router.post('/headPicUpdate',controller.userInfoUpdate.headPicUpdate)
 
   router.post('/QuerySomeonePoems',controller.queryPoems.QuerySomeonePoems)
+  router.post('/QueryRandomTenPoems',controller.queryPoems.QueryRandomTenPoems)
+  router.post('/QuerySomeTypePoem',controller.queryPoems.QuerySomeTypePoem)
+
+  router.post('/FuzzySearch',controller.search.FuzzySearch)
+  router.post('/Search',controller.search.Search)
+  router.post('/SearchType',controller.search.SearchType)
+  router.post('/SearchPoet',controller.search.SearchPoet)
+  router.post('/SearchDynasty',controller.search.SearchDynasty)
 };

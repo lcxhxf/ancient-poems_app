@@ -5,9 +5,15 @@ import React, { Fragment, useState } from 'react';
 import { Card, Toast, Picker, Popover } from 'antd-mobile'
 import { HeartOutline, AddSquareOutline, RightOutline, SoundOutline, SendOutline, DownlandOutline, HeartFill, TeamFill, MessageFill, AddressBookFill, MailFill } from 'antd-mobile-icons'
 import { useNavigate } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom'
 import './poemCard.css'
 
 function PoemCard(props) {
+
+    const param = useParams()           // 获取路由参数
+    // console.log('param:',param);
+    const location = useLocation()      // 获取路由路径
+//   console.log('使用useLocation获取的location', location.pathname)
 
     const basicColumns = [
         [
@@ -27,8 +33,15 @@ function PoemCard(props) {
     let navigate = useNavigate();
 
     const onHeaderClick = () => {       // 进入诗词详情页
-        console.log(props.id);
-        navigate('/index/index/poemDetail/' + props.id)
+        // console.log('location.pathname:',location.pathname);
+        if(location.pathname =='/index/index/search') {
+            navigate('/index/index/search/searchPoemDetail/' + props.id)
+        }
+        if(location.pathname =='/index/index') {
+            navigate('/index/index/poemDetail/' + props.id)
+        }else {
+            navigate('/index/index/sort/sortDetail/'+param.type+'/' + props.id)
+        }
     }
 
     const onBodyClick = () => {
