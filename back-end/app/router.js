@@ -26,4 +26,7 @@ module.exports = app => {
   router.post('/SearchType',controller.search.SearchType)
   router.post('/SearchPoet',controller.search.SearchPoet)
   router.post('/SearchDynasty',controller.search.SearchDynasty)
+
+  router.post('/QueryADynastyPoets',controller.queryPoets.QueryADynastyPoets)
+  router.post('/QuerySortDynastyPoets',controller.queryPoets.QuerySortDynastyPoets)
 };

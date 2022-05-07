@@ -25,7 +25,8 @@ class SearchController extends Controller {
     async Search() {   // 按输入关键字查询诗词
         let input = this.ctx.request.body.input
 
-        const sql1 = " SELECT * FROM t_poems_poem WHERE CONCAT(author, name, dynasty, content, annotation, type, translation ) LIKE '%" + input + "%'  LIMIT 10 OFFSET 0 "
+        // const sql1 = " SELECT * FROM t_poems_poem WHERE CONCAT(author, name, dynasty, content, annotation, type, translation ) LIKE '%" + input + "%'  LIMIT 10 OFFSET 0 "
+        const sql1 = " SELECT * FROM t_poems_poem,t_poems_poem_tang1 WHERE CONCAT(t_poems_poem.author, t_poems_poem.name, t_poems_poem.dynasty, t_poems_poem.content, t_poems_poem.annotation, t_poems_poem.type, t_poems_poem.translation,t_poems_poem_tang1.author, t_poems_poem_tang1.name, t_poems_poem_tang1.dynasty, t_poems_poem_tang1.content, t_poems_poem_tang1.annotation, t_poems_poem_tang1.type, t_poems_poem_tang1.translation  ) LIKE '%" + input + "%'  LIMIT 10 OFFSET 0 "
         const res1 = await this.app.mysql.query(sql1)
 
 

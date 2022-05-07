@@ -20,5 +20,7 @@ let servicePath = {
     SearchType:ipUrl + 'SearchType',  // 搜索诗词的所有类别
     SearchPoet:ipUrl + 'SearchPoet',  // 查询诗人表的所有诗人
     SearchDynasty:ipUrl + 'SearchDynasty',  // 查询朝代表的所有朝代
+    QueryADynastyPoets:ipUrl + 'QueryADynastyPoets',  // 查询某个朝代的诗人
+    QuerySortDynastyPoets:ipUrl + 'QuerySortDynastyPoets',  // 查询分类部分的各个朝代的诗人
 }
 export default servicePath;
