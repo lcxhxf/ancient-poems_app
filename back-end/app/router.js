@@ -6,6 +6,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
+  let loginAuth = app.middleware.loginAuth()
   router.get('/login', controller.login.login)
   router.post('/checkLogin',controller.login.checkLogin)
   router.post('/register',controller.register.register)

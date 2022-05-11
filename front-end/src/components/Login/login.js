@@ -69,6 +69,7 @@ function Login(props) {
                 localStorage.setItem('personalizedSig',res.data.res[0].personalizedSig)
                 localStorage.setItem('sex',res.data.res[0].sex)
                 localStorage.setItem('brith',res.data.res[0].brith)
+                localStorage.setItem('token',res.data.token)
                 console.log('res.data.res.userId:'+res.data.res[0].userId);
                 Toast.show({
                   content: '登录成功',

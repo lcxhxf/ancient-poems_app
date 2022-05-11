@@ -22,3 +22,7 @@ module.exports.cors = {     // cors插件
   enable: true,
   package: 'egg-cors'
 }
+module.exports.jwt = {       // jwt插件
+  enable: true,
+  package: "egg-jwt"
+};

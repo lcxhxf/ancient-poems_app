@@ -23,8 +23,11 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
   };
-  config.multipart = {
+  config.multipart = {  // 配置上传文件插件
     mode: 'file'
+  };
+  config.jwt = {      // 配置jwt
+    secret: "123456"
   };
   config.mysql = {    // 配置mysql数据库
     // database configuration
@@ -63,4 +66,7 @@ module.exports = appInfo => {
 exports.multipart = {
   mode: 'file',
 };
+// exports.jwt = {
+//   secret: "123456"
+// };
 

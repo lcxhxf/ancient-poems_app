@@ -3,7 +3,7 @@
  */
 import React, { Fragment, useState } from 'react';
 import './myDetail.css'
-import { NavBar, List, Avatar } from 'antd-mobile'
+import { NavBar, List, Avatar, Button } from 'antd-mobile'
 import {
   UnorderedListOutline,
   PayCircleOutline,
@@ -53,6 +53,10 @@ function MyDetail(props) {
   const goUpdateBrith = () => {
     navigate('/index/my/myDetail/updateBrith')
   }
+  const signOut = () => {
+    localStorage.clear()
+    navigate('/index/my')
+  }
 
   return (
     <CSSTransition
@@ -85,6 +89,7 @@ function MyDetail(props) {
                 生日
               </List.Item>
             </List>
+            <Button block size='large' onClick={signOut}>退出登录</Button>
           </div>
         </Fragment>
       </Container>
