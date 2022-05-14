@@ -20,13 +20,15 @@ class LoginController extends Controller {
     const crypto = require('crypto');
     
     let userName = this.ctx.request.body.userName
+    userName = userName.replaceAll("'", "");
     let password = this.ctx.request.body.password
+    password = password.replaceAll("'", "");
     const pwd = crypto.createHash('md5').update(password).digest('hex');
     const sql = " SELECT userId, userName, headPicPath, personalizedSig, sex, brith FROM user WHERE userName = '"+userName +
                 "' AND password = '"+pwd+"'"
 
     const res = await this.app.mysql.query(sql)
-    // console.log('res：'+res[0]);
+    console.log('res：'+res[0]);
     if(res.length>0){
         //登录成功,进行session缓存
         let openId=new Date().getTime()

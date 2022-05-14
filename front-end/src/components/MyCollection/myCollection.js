@@ -1,0 +1,219 @@
+/**
+ * @description 我的收藏界面
+ */
+ import React, { useState } from 'react';
+ import { NavBar, Space, Button, Tabs, List, Image } from 'antd-mobile'
+ import { useNavigate } from 'react-router-dom';
+ import servicePath from '../../config/apiUrl';
+ import axios from 'axios'
+ import { Toast } from 'antd-mobile'
+ import { Container } from './style';
+ import { CSSTransition } from 'react-transition-group';
+ import {
+    DragDropContext,
+    Draggable,
+    Droppable,
+    DropResult,
+} from 'react-beautiful-dnd'
+import { users } from './users.js'
+ 
+ function MyCollection() {
+ 
+    let navigate = useNavigate();
+ 
+    // 从localStorage获取用户信息
+    let userName = localStorage.getItem('userName')
+    let userId = localStorage.getItem('userId')
+    // console.log('userId: '+userId);
+    const [value, setValue] = useState('')  // 存储用户名
+
+    const [showStatus, setShowStatus] = useState(true);     // 控制页面跳转动画
+    const back = () => {
+        setShowStatus(false)
+    }
+
+
+    //拖拽相关的方法
+    const reorder = (
+        list,
+        startIndex,
+        endIndex
+    ) => {
+        const result = Array.from(list)
+        const [removed] = result.splice(startIndex, 1)
+        result.splice(endIndex, 0, removed)
+
+        return result
+    }
+
+    const [list, setList] = useState(users)
+    const [list1, setList1] = useState([{id:'1',name:'静夜思',description:'李白'},{id:'2',name:'水调歌头',description:'苏轼'},{id:'3',name:'泊秦淮',description:'杜甫'}])
+    const onDragEnd = (result) => {
+        if (!result.destination) return
+        const newList = reorder(list, result.source.index, result.destination.index)
+        setList([...newList])
+    }
+    const onDragEnd1 = (result) => {
+        if (!result.destination) return
+        const newList = reorder(list1, result.source.index, result.destination.index)
+        setList1([...newList])
+    }
+
+
+    const userNameUpdate = () => {    // 修改用户名方法
+
+        let dataProps = {
+            'userName': value,
+            'userId': userId,
+        }
+        axios({
+            method: 'post',
+            url: servicePath.userNameUpdate,
+            data: dataProps,
+            withCredentials: true
+        }).then(
+            res => {
+                // setIsLoading(false)
+                if (res.data.data == '修改用户名成功') {
+                    Toast.show({
+                        content: '修改用户名成功',
+                        duration: 1000,
+                    })
+                    if (res.data.res.changedRows > 0) {
+                        localStorage.setItem('userName', value)
+                        // console.log('设置完之后'+userName);
+                    }
+                    // console.log('res.data.res:'+res.data.res);
+                    //   alert('注册成功')
+                    navigate('/index/my')
+                    // props.history.push('/index/my')
+                } else {
+                    // message.error('用户名密码错误')
+                    Toast.show({
+                        content: '修改用户名失败了',
+                        duration: 1000,
+                    })
+                    //   alert('注册失败了呢')
+                }
+            }
+        )
+    }
+
+
+    const right = (
+        <div style={{ fontSize: 24 }}>
+            <Space style={{ '--gap': '16px' }}>
+                <Button size='mini' onClick={userNameUpdate}>
+                    保存
+                </Button>
+            </Space>
+        </div>
+    )
+    return (
+        <CSSTransition
+            in={showStatus}
+            timeout={300}
+            classNames="fly"
+            appear={true}
+            unmountOnExit
+            onExited={() => navigate('/index/my')}
+        >
+            <Container>
+                <div className="">
+                    <NavBar right={right} onBack={back}>
+                        我的收藏
+                    </NavBar>
+                    <Tabs>
+                        <Tabs.Tab title='诗文' key='1'>
+                            <List header='可拖拽排序'>
+                                <DragDropContext onDragEnd={onDragEnd1}>
+                                    <Droppable droppableId='droppable'>
+                                        {droppableProvided => (
+                                            <div ref={droppableProvided.innerRef}>
+                                                {list1.map((item, index) => (
+                                                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={{
+                                                                    ...provided.draggableProps.style,
+                                                                    opacity: snapshot.isDragging ? 0.8 : 1,
+                                                                }}
+                                                            >
+                                                                <List.Item
+                                                                    key={item.name}
+                                                                    description={item.description}
+                                                                >
+                                                                    {item.name}
+                                                                </List.Item>
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {droppableProvided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
+                                </DragDropContext>
+                            </List>
+                        </Tabs.Tab>
+                        <Tabs.Tab title='名句' key='2'>
+                            诗文
+                        </Tabs.Tab>
+                        <Tabs.Tab title='古籍' key='3'>
+                            古籍
+                        </Tabs.Tab>
+                        <Tabs.Tab title='作者' key='4'>
+                            <List header='可拖拽排序'>
+                                <DragDropContext onDragEnd={onDragEnd}>
+                                    <Droppable droppableId='droppable'>
+                                        {droppableProvided => (
+                                            <div ref={droppableProvided.innerRef}>
+                                                {list.map((item, index) => (
+                                                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={{
+                                                                    ...provided.draggableProps.style,
+                                                                    opacity: snapshot.isDragging ? 0.8 : 1,
+                                                                }}
+                                                            >
+                                                                <List.Item
+                                                                    key={item.name}
+                                                                    prefix={
+                                                                        <Image
+                                                                            src={item.avatar}
+                                                                            style={{ borderRadius: 20 }}
+                                                                            fit='cover'
+                                                                            width={40}
+                                                                            height={40}
+                                                                        />
+                                                                    }
+                                                                    description={item.description}
+                                                                >
+                                                                    {item.name}
+                                                                </List.Item>
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))}
+                                                {droppableProvided.placeholder}
+                                            </div>
+                                        )}
+                                    </Droppable>
+                                </DragDropContext>
+                            </List>
+                        </Tabs.Tab>
+                    </Tabs>
+                </div>
+            </Container>
+        </CSSTransition>
+    )
+ }
+ 
+ export default React.memo(MyCollection);

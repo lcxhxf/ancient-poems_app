@@ -10,6 +10,7 @@ class userInfoUpdateController extends Controller {
 
         let userId = this.ctx.request.body.userId
         let userName = this.ctx.request.body.userName
+        userName = userName.replaceAll("'", "");
         // console.log('userId:'+userId);
         // console.log('userName:'+userName);
         const results = await this.app.mysql.query('update user set userName = ? where userId = ?', [userName, userId]);
@@ -34,6 +35,7 @@ class userInfoUpdateController extends Controller {
 
         let userId = this.ctx.request.body.userId
         let personalizedSig = this.ctx.request.body.personalizedSig
+        personalizedSig = personalizedSig.replaceAll("'", "");
         console.log('userId:' + userId);
         console.log('personalizedSig:' + personalizedSig);
         const results = await this.app.mysql.query('update user set personalizedSig = ? where userId = ?', [personalizedSig, userId]);
@@ -46,7 +48,9 @@ class userInfoUpdateController extends Controller {
 
         let userId = this.ctx.request.body.userId
         let password = this.ctx.request.body.password
+        password = password.replaceAll("'", "");
         let newPassword = this.ctx.request.body.newPassword
+        newPassword = newPassword.replaceAll("'", "");
         console.log('password:' + password);
         console.log('newPassword:' + newPassword);
 

@@ -44,6 +44,17 @@ function Search() {
             Toast.show('delete')
         },
     }
+    function throttle(fun, time) {
+        let t1 = 0 //初始时间
+        return function () {
+            let t2 = new Date() //当前时间
+            if (t2 - t1 > time) {
+                fun.apply(this, arguments)
+                t1 = t2
+            }
+        }
+    }
+
     const searchList = (val) => {               // 模糊查询展示
         // console.log('val',val);
         dataProps = {   // 请求的数据格式
@@ -87,10 +98,10 @@ function Search() {
         //     setValue([])
         // }
     }
-    function listItemOnClick(e,index) {             // 点击推荐的item查询
+    function listItemOnClick(e, index) {             // 点击推荐的item查询
         // console.log(e.target.innerText);
         // console.log(index);
-        if(index >= 0 && index <= 2) {
+        if (index >= 0 && index <= 2) {
             dataProps = {   // 请求的数据格式
                 'author': e.target.innerText,
             }
@@ -106,8 +117,8 @@ function Search() {
                         const action = {
                             type: 'changeSearchPoemList',
                             value: res.data.res,
-                          }
-                          store.dispatch(action)
+                        }
+                        store.dispatch(action)
                     } else {
                         Toast.show({
                             content: '未查询到',
@@ -132,8 +143,8 @@ function Search() {
                         const action = {
                             type: 'changeSearchPoemList',
                             value: res.data.res1,
-                          }
-                          store.dispatch(action)
+                        }
+                        store.dispatch(action)
                     } else {
                         Toast.show({
                             content: '未查询到',
@@ -161,8 +172,8 @@ function Search() {
                         const action = {
                             type: 'changeSearchPoemList',
                             value: res.data.res1,
-                          }
-                          store.dispatch(action)
+                        }
+                        store.dispatch(action)
                     } else {
                         Toast.show({
                             content: '未查询到',
@@ -191,15 +202,15 @@ function Search() {
                 <Fragment>
                     <List>
                         <List.Item>
-                            <SearchBar ref={queryRef} placeholder='搜索' icon={icon} onChange={(val) => { searchList(val) }} onSearch={(val) => { search(val) }} onFocus={() => openKeyboard('demo1')} onBlur={() => { setVisible('') }} />
+                            <SearchBar ref={queryRef} placeholder='搜索' icon={icon} onChange={(val) => { throttle(searchList(val), 3500) }} onSearch={(val) => { search(val) }} onFocus={() => openKeyboard('demo1')} onBlur={() => { setVisible('') }} />
                         </List.Item>
                     </List>
                     <List style={{ minHeight: '100vh' }}>
                         {value.map((item, index) => (
-                            <List.Item key={index} id={index} onClick={(e) => {listItemOnClick(e,index)}}>{item}</List.Item>
+                            <List.Item key={index} id={index} onClick={(e) => { listItemOnClick(e, index) }}>{item}</List.Item>
                         ))}
                     </List>
-                    <List style={{ minHeight: '100vh',zIndex:'10',position:'absolute',top:'.5798rem'}}>
+                    <List style={{ minHeight: '100vh', zIndex: '10', position: 'absolute', top: '.5798rem' }}>
                         <PullToRefresh
                             onRefresh={async () => {
                             }}

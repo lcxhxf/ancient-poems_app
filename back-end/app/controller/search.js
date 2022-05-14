@@ -8,6 +8,7 @@ class SearchController extends Controller {
 
     async FuzzySearch() {   // 模糊查询诗词出推荐结果
         let input = this.ctx.request.body.input
+        input = input.replaceAll("'", "");
 
         const sql1 = " SELECT author FROM t_poems_poem WHERE author LIKE '%" + input + "%'  LIMIT 3 OFFSET 0 "
         const res1 = await this.app.mysql.query(sql1)
@@ -24,6 +25,7 @@ class SearchController extends Controller {
 
     async Search() {   // 按输入关键字查询诗词
         let input = this.ctx.request.body.input
+        input = input.replaceAll("'", "");
 
         // const sql1 = " SELECT * FROM t_poems_poem WHERE CONCAT(author, name, dynasty, content, annotation, type, translation ) LIKE '%" + input + "%'  LIMIT 10 OFFSET 0 "
         const sql1 = " SELECT * FROM t_poems_poem,t_poems_poem_tang1 WHERE CONCAT(t_poems_poem.author, t_poems_poem.name, t_poems_poem.dynasty, t_poems_poem.content, t_poems_poem.annotation, t_poems_poem.type, t_poems_poem.translation,t_poems_poem_tang1.author, t_poems_poem_tang1.name, t_poems_poem_tang1.dynasty, t_poems_poem_tang1.content, t_poems_poem_tang1.annotation, t_poems_poem_tang1.type, t_poems_poem_tang1.translation  ) LIKE '%" + input + "%'  LIMIT 10 OFFSET 0 "
@@ -32,6 +34,22 @@ class SearchController extends Controller {
 
         if (res1.length > 0) {
             this.ctx.body = { 'data': '搜索框查询成功', 'res1': res1 }
+        } else {
+
+        }
+
+    }
+
+    async NameSearch() {   // 按输入诗名查询一首诗词
+        let name = this.ctx.request.body.name
+        name = name.replaceAll("'", "");
+
+        const sql1 = " SELECT * FROM t_poems_poem,t_poems_poem_tang1 WHERE CONCAT(t_poems_poem.name, t_poems_poem_tang1.name) LIKE '%" + name + "%'  LIMIT 1 OFFSET 0 "
+        const res1 = await this.app.mysql.query(sql1)
+
+
+        if (res1.length > 0) {
+            this.ctx.body = { 'data': '按输入诗名查询一首诗词成功', 'res1': res1 }
         } else {
 
         }

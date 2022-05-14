@@ -22,6 +22,11 @@ import SortDetail from './components/SortDetail/sortDetail';
 import FindDetail from './components/FindDetail/findDetail';
 import SearchPoemDetail from './components/SearchPoemDetail/searchPoemDetail';
 import SortPoemDetail from './components/SortPoemDetail/sortPoemDetail';
+import MyBrowsing from './components/MyBrowsing/myBrowsing';
+import MyCollection from './components/MyCollection/myCollection';
+import MyPoemList from './components/MyPoemList/myPoemList';
+import MyRecitation from './components/MyRecitation/myRecitation';
+import OnePoemDetail from './components/OnePoemDetail/onePoemDetail';
 
 function App() {
   let routes = useRoutes(ALLRoutes);
@@ -60,6 +65,13 @@ function App() {
 
                     <Route path="/index/sort/sortDetail/:type" element={<SortDetail/>} ></Route>          {/*分类详情界面*/}
                     <Route path="/index/find/findDetail" element={<FindDetail/>} ></Route>          {/*发现详情界面*/}
+
+                    <Route path="/index/my/myBrowsing" element={<MyBrowsing />} ></Route>      {/*我的浏览历史界面*/}
+                    <Route path="/index/my/myBrowsing/onePoemDetail/:name" element={<OnePoemDetail />} ></Route>      {/*我的浏览历史界面*/}
+
+                    <Route path="/index/my/myCollection" element={<MyCollection />} ></Route>      {/*我的收藏界面*/}
+                    <Route path="/index/my/myPoemList" element={<MyPoemList />} ></Route>      {/*我的诗单界面*/}
+                    <Route path="/index/my/myRecitation" element={<MyRecitation />} ></Route>      {/*我的背诵界面*/}
 
                     <Route path="/index/my/myDetail/updateHeadPic" element={<UpdateHeadPic />} ></Route>      {/*修改头像界面*/}
                     <Route path="/index/my/myDetail/updateUserName" element={<UpdateUserName />} ></Route>    {/*修改用户名界面*/}

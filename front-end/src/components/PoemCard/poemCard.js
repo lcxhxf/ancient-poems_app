@@ -39,6 +39,9 @@ function PoemCard(props) {
         }
         if(location.pathname =='/index/index') {
             navigate('/index/index/poemDetail/' + props.id)
+        }
+        if(location.pathname =='/index/index') {
+            navigate('/index/index/poemDetail/' + props.id)
         }else {
             navigate('/index/index/sort/sortDetail/'+param.type+'/' + props.id)
         }

@@ -42,6 +42,19 @@ function My(props) {
   const goMyDetail = () => {
     navigate('/index/my/myDetail')
   }
+  const goMyBrowsing = () => {
+    navigate('/index/my/myBrowsing')
+  }
+
+  const goMyCollection = () => {
+    navigate('/index/my/myCollection')
+  }
+  const goMyPoemList = () => {
+    navigate('/index/my/myPoemList')
+  }
+  const goMyRecitation = () => {
+    navigate('/index/my/myRecitation')
+  }
 
   return (
     <div>
@@ -53,16 +66,16 @@ function My(props) {
           </List>
 
           <List header='     '>
-            <List.Item prefix={<EyeInvisibleOutline />} onClick={() => { }}>
+            <List.Item prefix={<EyeInvisibleOutline />} onClick={goMyBrowsing }>
               我的浏览
             </List.Item>
-            <List.Item prefix={<StarOutline />} onClick={() => { }}>
+            <List.Item prefix={<StarOutline />} onClick={goMyCollection}>
               我的收藏
             </List.Item>
-            <List.Item prefix={<FileOutline />} onClick={() => { }}>
+            <List.Item prefix={<FileOutline />} onClick={goMyPoemList }>
               我的诗单
             </List.Item>
-            <List.Item prefix={<ContentOutline />} onClick={() => { }}>
+            <List.Item prefix={<ContentOutline />} onClick={goMyRecitation }>
               我的背诵
             </List.Item>
             <List.Item prefix={<FillinOutline />} onClick={() => { }}>
@@ -102,16 +115,16 @@ function My(props) {
           </List>
 
           <List header='     '>
-            <List.Item prefix={<EyeInvisibleOutline />} onClick={() => { }}>
+          <List.Item prefix={<EyeInvisibleOutline />} onClick={goMyBrowsing }>
               我的浏览
             </List.Item>
-            <List.Item prefix={<StarOutline />} onClick={() => { }}>
+            <List.Item prefix={<StarOutline />} onClick={goMyCollection}>
               我的收藏
             </List.Item>
-            <List.Item prefix={<FileOutline />} onClick={() => { }}>
+            <List.Item prefix={<FileOutline />} onClick={goMyPoemList }>
               我的诗单
             </List.Item>
-            <List.Item prefix={<ContentOutline />} onClick={() => { }}>
+            <List.Item prefix={<ContentOutline />} onClick={goMyRecitation }>
               我的背诵
             </List.Item>
             <List.Item prefix={<FillinOutline />} onClick={() => { }}>

@@ -24,6 +24,7 @@ module.exports = app => {
 
   router.post('/FuzzySearch',controller.search.FuzzySearch)
   router.post('/Search',controller.search.Search)
+  router.post('/NameSearch',controller.search.NameSearch)
   router.post('/SearchType',controller.search.SearchType)
   router.post('/SearchPoet',controller.search.SearchPoet)
   router.post('/SearchDynasty',controller.search.SearchDynasty)

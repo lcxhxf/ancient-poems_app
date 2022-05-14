@@ -73,7 +73,7 @@ function Register(props) {
     let dataProps = {   // 请求的数据格式
       'userName': userName,
       'password': password,
-      'headPicPath':'https://s2.loli.net/2022/03/31/hPbn74XEKI9dVqW.png',
+      'headPicPath':'http://localhost:7001/public/upload/1651474479686hPbn74XEKI9dVqW.png',
       'personalizedSig':'这个人很神秘，什么都没有写',
       'sex': 1,
       'brith':'2022-03-27'
