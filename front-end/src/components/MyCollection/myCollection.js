@@ -1,7 +1,7 @@
 /**
  * @description 我的收藏界面
  */
- import React, { useState } from 'react';
+ import React, { useEffect, useState } from 'react';
  import { NavBar, Space, Button, Tabs, List, Image } from 'antd-mobile'
  import { useNavigate } from 'react-router-dom';
  import servicePath from '../../config/apiUrl';
@@ -47,7 +47,7 @@ import { users } from './users.js'
     }
 
     const [list, setList] = useState(users)
-    const [list1, setList1] = useState([{id:'1',name:'静夜思',description:'李白'},{id:'2',name:'水调歌头',description:'苏轼'},{id:'3',name:'泊秦淮',description:'杜甫'}])
+    const [list1, setList1] = useState([])  // [{id:'1',name:'静夜思',description:'李白'},{id:'2',name:'水调歌头',description:'苏轼'},{id:'3',name:'泊秦淮',description:'杜甫'}]
     const onDragEnd = (result) => {
         if (!result.destination) return
         const newList = reorder(list, result.source.index, result.destination.index)
@@ -59,6 +59,39 @@ import { users } from './users.js'
         setList1([...newList])
     }
 
+    const Init = () => {
+        let dataProps = {
+            'page': 1,
+            'userId': userId,
+        }
+        axios({
+            method: 'post',
+            url: servicePath.QueryCollection,
+            data: dataProps,
+            withCredentials: true
+        }).then(
+            res => {
+                // setIsLoading(false)
+                if (res.data.result == '收藏合集') {
+                    Toast.show({
+                        content: '收藏合集',
+                        duration: 1000,
+                    })
+                    setList1(res.data.res)
+                } else {
+                    // message.error('用户名密码错误')
+                    Toast.show({
+                        content: '查询失败',
+                        duration: 1000,
+                    })
+                    //   alert('注册失败了呢')
+                }
+            }
+        )
+    }
+    useEffect(() => {
+        Init()
+    },[])
 
     const userNameUpdate = () => {    // 修改用户名方法
 

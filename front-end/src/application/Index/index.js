@@ -472,7 +472,7 @@ function Index(props) {
           >
             <List style={{ minHeight: '100vh' }}>
               {randomPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id}/>
               })}
             </List>
           </PullToRefresh>
@@ -485,7 +485,7 @@ function Index(props) {
           >
             {dufuPoem.map((item, index) => {
               // {console.log(item);}
-              return <PoemCard key={index} id={index} title={item.name} poet='杜甫 [唐朝]' content={item.content} />
+              return <PoemCard key={index} id={index} title={item.name} poet='杜甫 [唐朝]' content={item.content} poemId={item.id} />
             })}
           </PullToRefresh>
         </JumboTabs.Tab>
@@ -497,7 +497,7 @@ function Index(props) {
           >
             {
               libaiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet='李白 [唐朝]' content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet='李白 [唐朝]' content={item.content}  poemId={item.id}/>
               })
             }
           </PullToRefresh>

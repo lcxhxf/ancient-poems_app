@@ -23,6 +23,15 @@ let servicePath = {
     SearchDynasty:ipUrl + 'SearchDynasty',  // 查询朝代表的所有朝代
     QueryADynastyPoets:ipUrl + 'QueryADynastyPoets',  // 查询某个朝代的诗人
     QuerySortDynastyPoets:ipUrl + 'QuerySortDynastyPoets',  // 查询分类部分的各个朝代的诗人
-   
+    AddCollection:ipUrl + 'AddCollection', // 收藏某首诗词
+    QueryCollection:ipUrl + 'QueryCollection', // 查询所有收藏记录
+    AddHistory:ipUrl + 'AddHistory', // 推荐浏览记录
+    SearchHistory:ipUrl + 'SearchHistory', // 查询浏览记录
+    CheckList:ipUrl + 'CheckList', // 查询浏览记录
+    CheckPoemList:ipUrl + 'CheckPoemList' // 查询诗单的诗词
+    
+    
+    
+    
 }
 export default servicePath;

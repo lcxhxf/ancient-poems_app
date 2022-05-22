@@ -31,6 +31,18 @@ module.exports = appInfo => {
   };
   config.mysql = {    // 配置mysql数据库
     // database configuration
+    // client: {
+    //   // host
+    //   host: '127.0.0.1',
+    //   // port
+    //   port: '3306',
+    //   // username
+    //   user: 'root',
+    //   // password
+    //   password: '',
+    //   // database
+    //   database: 'ancientpoems',
+    // },
     client: {
       // host
       host: '127.0.0.1',
@@ -53,7 +65,8 @@ module.exports = appInfo => {
     domainWhiteList: ['*']
   };
   config.cors = {
-    origin: 'http://localhost:3000', //只允许这个域进行访问接口
+    origin: ctx => ctx.get('origin'),
+    // origin: '*', //只允许这个域进行访问接口
     credentials: true,   // 开启认证 支持cookie跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
   };

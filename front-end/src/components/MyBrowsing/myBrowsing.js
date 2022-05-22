@@ -1,7 +1,7 @@
 /**
  * @description 我的浏览历史界面
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavBar, Space, Button, Tabs, List, Image } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom';
 import servicePath from '../../config/apiUrl';
@@ -34,6 +34,7 @@ function MyBrowsing() {
         return result
     }
 
+    let userId = localStorage.getItem('userId')
     const [list, setList] = useState(users)
     const [list1, setList1] = useState([{id:'1',name:'静夜思',description:'李白'},{id:'2',name:'水调歌头',description:'苏轼'},{id:'3',name:'泊秦淮',description:'杜甫'}])
     const onDragEnd = (result) => {
@@ -60,6 +61,39 @@ function MyBrowsing() {
         navigate('/index/my/myBrowsing/onePoemDetail/' + data[0])
     }
 
+    const Init = () => {
+        let dataProps = {
+            'page': 1,
+            'userId': userId,
+        }
+        axios({
+            method: 'post',
+            url: servicePath.SearchHistory,
+            data: dataProps,
+            withCredentials: true
+        }).then(
+            res => {
+                // setIsLoading(false)
+                if (res.data.result == '查询历史记录成功') {
+                    Toast.show({
+                        content: '查询历史记录成功',
+                        duration: 1000,
+                    })
+                    setList1(res.data.res)
+                } else {
+                    // message.error('用户名密码错误')
+                    Toast.show({
+                        content: '查询失败',
+                        duration: 1000,
+                    })
+                    //   alert('注册失败了呢')
+                }
+            }
+        )
+    }
+    useEffect(() => {
+        Init()
+    },[])
 
     const right = (
         <div style={{ fontSize: 24 }}>

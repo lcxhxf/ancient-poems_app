@@ -1,7 +1,7 @@
 /**
  * @description 我的诗单界面
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavBar, Space, List, Dialog, ActionSheet, Tabs, Image } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom';
 import servicePath from '../../config/apiUrl';
@@ -22,9 +22,10 @@ function MyPoemList() {
 
     let navigate = useNavigate();
 
+    let userId = localStorage.getItem('userId')
     const [value, setValue] = useState('')  // 存储用户名
     const [visible, setVisible] = useState(false)       // 控制面板是否显示
-    const [poemList, setPoemList] = useState([{ id: 1, title: '默认诗单' }, { id: 2, title: '我的最爱' }, { id: 3, title: '最近在看' }])    // tabs数据
+    const [poemList, setPoemList] = useState([])    // tabs数据 [{ id: 1, title: '默认诗单' }, { id: 2, title: '我的最爱' }, { id: 3, title: '最近在看' }]
     const [key,setKey] = useState(1)    // 设置当前tab的key
     const [showStatus, setShowStatus] = useState(true);     // 控制页面跳转动画
     const back = () => {
@@ -94,6 +95,73 @@ function MyPoemList() {
         setList1([...newList])
     }
 
+
+    const Init = () => {
+        let dataProps = {
+            'userId': userId,
+        }
+        axios({
+            method: 'post',
+            url: servicePath.CheckList,
+            data: dataProps,
+            withCredentials: true
+        }).then(
+            res => {
+                // setIsLoading(false)
+                if (res.data.result == '查看成功') {
+                    Toast.show({
+                        content: '查看成功',
+                        duration: 1000,
+                    })
+                    setPoemList(res.data.res)
+                } else {
+                    // message.error('用户名密码错误')
+                    Toast.show({
+                        content: '查询失败',
+                        duration: 1000,
+                    })
+                    //   alert('注册失败了呢')
+                }
+            }
+        )
+    }
+    useEffect(() => {
+        Init()
+    },[])
+
+
+    const queryPoemListPoems = (key) => {
+        console.log(key);
+        setKey(key)
+        let dataProps = {
+            'userId': userId,
+            "listId": Number(key)+1
+        }
+        axios({
+            method: 'post',
+            url: servicePath.CheckPoemList,
+            data: dataProps,
+            withCredentials: true
+        }).then(
+            res => {
+                // setIsLoading(false)
+                if (res.data.result == '查看诗单列表成功') {
+                    // Toast.show({
+                    //     content: '查看成功',
+                    //     duration: 1000,
+                    // })
+                    setList1(res.data.res)
+                } else {
+                    // message.error('用户名密码错误')
+                    Toast.show({
+                        content: '查看诗单列表失败',
+                        duration: 1000,
+                    })
+                    //   alert('注册失败了呢')
+                }
+            }
+        )
+    }
     const right = (
         <div style={{ fontSize: 24 }}>
             <Space style={{ '--gap': '16px' }}>
@@ -115,7 +183,7 @@ function MyPoemList() {
                     <NavBar right={right} onBack={back}>
                         我的诗单
                     </NavBar>
-                    <Tabs defaultActiveKey='0' onChange={(key) => {setKey(key)}}>
+                    <Tabs defaultActiveKey='0' onChange={queryPoemListPoems}>
                         {
                             poemList?.map((item, index) => {
                                 return <Tabs.Tab title={item.title} key={index}>
