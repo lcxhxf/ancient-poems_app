@@ -21,19 +21,19 @@ export default [
       },
       {
         path: "/index",
-        element: <Suspense fallback={null}><Index /></Suspense>
+        element: <Index />
       },
       {
         path: "/sort",
-        element: <Suspense fallback={null}><Sort /></Suspense>
+        element: <Sort />
       },
       {
         path: "/find",
-        element: <Suspense fallback={null}><Find /></Suspense>
+        element: <Find />
       },
       {
         path: "/my",
-        element: <Suspense fallback={null}><My /></Suspense>
+        element: <My />
       }
     ]
   }

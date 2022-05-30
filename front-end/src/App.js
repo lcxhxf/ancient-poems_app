@@ -4,7 +4,7 @@
 import React from 'react';
 import ALLRoutes from '../src/routes/index';
 import { useRoutes } from 'react-router';
-import { GlobalStyle } from  './style';
+import { GlobalStyle } from './style';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ButtomTab from './components/ButtomTab/buttomTab';
 import Login from './components/Login/login'
@@ -52,37 +52,38 @@ function App() {
     <div>
       <GlobalStyle></GlobalStyle>
       <div className="router">
-                <Routes>
-                    <Route path="/*" element={<ButtomTab />} ></Route>                  {/*tabbar界面(整个app的界面：tabbar及四个子路由)*/}
+        {/* {routes} */}
+        <Routes>
+          <Route path="/*" element={<ButtomTab />} ></Route>                  {/*tabbar界面(整个app的界面：tabbar及四个子路由)*/}
 
-                    <Route path="/login" element={<Login />} ></Route>                  {/*登录界面*/}
-                    <Route path="/register" element={<Register />} ></Route>            {/*注册界面*/}
-                    <Route path="/index/my/myDetail" element={<MyDetail />} ></Route>   {/*个人信息详情界面*/}
-                    <Route path="/index/index/poemDetail/:id" element={<PoemDetail />} ></Route>          {/*诗词详情界面*/}
-                    <Route path="/index/index/search" element={<Search/>} ></Route>          {/*搜索详情界面*/}
-                    <Route path="/index/index/search/searchPoemDetail/:id" element={<SearchPoemDetail/>} ></Route>          {/*搜索诗词详情界面*/}
-                    <Route path="/index/index/sort/sortDetail/:type/:id" element={<SortPoemDetail/>} ></Route>          {/*分类诗词详情界面*/}
+          <Route path="/login" element={<Login />} ></Route>                  {/*登录界面*/}
+          <Route path="/register" element={<Register />} ></Route>            {/*注册界面*/}
+          <Route path="/index/my/myDetail" element={<MyDetail />} ></Route>   {/*个人信息详情界面*/}
+          <Route path="/index/index/poemDetail/:id" element={<PoemDetail />} ></Route>          {/*诗词详情界面*/}
+          <Route path="/index/index/search" element={<Search />} ></Route>          {/*搜索详情界面*/}
+          <Route path="/index/index/search/searchPoemDetail/:id" element={<SearchPoemDetail />} ></Route>          {/*搜索诗词详情界面*/}
+          <Route path="/index/index/sort/sortDetail/:type/:id" element={<SortPoemDetail />} ></Route>          {/*分类诗词详情界面*/}
 
-                    <Route path="/index/sort/sortDetail/:type" element={<SortDetail/>} ></Route>          {/*分类详情界面*/}
-                    <Route path="/index/find/findDetail" element={<FindDetail/>} ></Route>          {/*发现详情界面*/}
+          <Route path="/index/sort/sortDetail/:type" element={<SortDetail />} ></Route>          {/*分类详情界面*/}
+          <Route path="/index/find/findDetail" element={<FindDetail />} ></Route>          {/*发现详情界面*/}
 
-                    <Route path="/index/my/myBrowsing" element={<MyBrowsing />} ></Route>      {/*我的浏览历史界面*/}
-                    <Route path="/index/my/myBrowsing/onePoemDetail/:name" element={<OnePoemDetail />} ></Route>      {/*我的浏览历史界面*/}
+          <Route path="/index/my/myBrowsing" element={<MyBrowsing />} ></Route>      {/*我的浏览历史界面*/}
+          <Route path="/index/my/myBrowsing/onePoemDetail/:name" element={<OnePoemDetail />} ></Route>      {/*我的浏览历史界面*/}
 
-                    <Route path="/index/my/myCollection" element={<MyCollection />} ></Route>      {/*我的收藏界面*/}
-                    <Route path="/index/my/myPoemList" element={<MyPoemList />} ></Route>      {/*我的诗单界面*/}
-                    <Route path="/index/my/myRecitation" element={<MyRecitation />} ></Route>      {/*我的背诵界面*/}
+          <Route path="/index/my/myCollection" element={<MyCollection />} ></Route>      {/*我的收藏界面*/}
+          <Route path="/index/my/myPoemList" element={<MyPoemList />} ></Route>      {/*我的诗单界面*/}
+          <Route path="/index/my/myRecitation" element={<MyRecitation />} ></Route>      {/*我的背诵界面*/}
 
-                    <Route path="/index/my/myDetail/updateHeadPic" element={<UpdateHeadPic />} ></Route>      {/*修改头像界面*/}
-                    <Route path="/index/my/myDetail/updateUserName" element={<UpdateUserName />} ></Route>    {/*修改用户名界面*/}
-                    <Route path="/index/my/myDetail/updatePassword" element={<UpdatePassword />} ></Route>    {/*修改密码界面*/}
-                    <Route path="/index/my/myDetail/updateSex" element={<UpdateSex />} ></Route>              {/*修改性别界面*/}
-                    <Route path="/index/my/myDetail/updatePersonalizedSig" element={<UpdatePersonalizedSig />} ></Route>       {/*修改个性签名界面*/}
-                    <Route path="/index/my/myDetail/updateBrith" element={<UpdateBrith />} ></Route>          {/*修改生日界面*/}
+          <Route path="/index/my/myDetail/updateHeadPic" element={<UpdateHeadPic />} ></Route>      {/*修改头像界面*/}
+          <Route path="/index/my/myDetail/updateUserName" element={<UpdateUserName />} ></Route>    {/*修改用户名界面*/}
+          <Route path="/index/my/myDetail/updatePassword" element={<UpdatePassword />} ></Route>    {/*修改密码界面*/}
+          <Route path="/index/my/myDetail/updateSex" element={<UpdateSex />} ></Route>              {/*修改性别界面*/}
+          <Route path="/index/my/myDetail/updatePersonalizedSig" element={<UpdatePersonalizedSig />} ></Route>       {/*修改个性签名界面*/}
+          <Route path="/index/my/myDetail/updateBrith" element={<UpdateBrith />} ></Route>          {/*修改生日界面*/}
 
-                    
-                </Routes>
-            </div>
+
+        </Routes>
+      </div>
     </div>
   )
 }
