@@ -69,6 +69,9 @@ function PoemCard(props) {
                 }
             }
         )
+        if(props.collection == 1) {
+            setIsColect(!isCollect)
+        }
     }
     useEffect(() => {
         Init()

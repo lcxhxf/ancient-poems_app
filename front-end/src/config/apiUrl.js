@@ -28,10 +28,10 @@ let servicePath = {
     AddHistory:ipUrl + 'AddHistory', // 推荐浏览记录
     SearchHistory:ipUrl + 'SearchHistory', // 查询浏览记录
     CheckList:ipUrl + 'CheckList', // 查询浏览记录
-    CheckPoemList:ipUrl + 'CheckPoemList' // 查询诗单的诗词
-    
-    
-    
-    
+    CheckPoemList:ipUrl + 'CheckPoemList', // 查询诗单的诗词
+    CreateList:ipUrl + 'CreateList', // 创建诗单
+    DeleteList:ipUrl + 'DeleteList', // 删除诗单
+    UpdateList:ipUrl + 'UpdateList' // 修改诗单
+       
 }
 export default servicePath;

@@ -11,7 +11,7 @@ class QueryPoemsController extends Controller {
         let author = this.ctx.request.body.author
 
         // let author = '李白'
-        const sql = " SELECT author, name, dynasty, content, annotation, translation, analyse, background FROM t_poems_poem WHERE author = '" + author + "' ORDER BY RAND() LIMIT 10 OFFSET 0 "
+        const sql = " SELECT id, author, name, dynasty, content, annotation, translation, analyse, background FROM t_poems_poem WHERE author = '" + author + "' ORDER BY RAND() LIMIT 10 OFFSET 0 "
         const res = await this.app.mysql.query(sql)
 
         if (res.length > 0) {

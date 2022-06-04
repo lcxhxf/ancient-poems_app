@@ -9,7 +9,7 @@ import Sort from '../../application/Sort/sort'
 import Find from '../../application/Find/find'
 import My from '../../application/My/my'
 import MyDetail from '../MyDetail/myDetail';
-import { useNavigate, useRoutes, useLocation } from 'react-router-dom';
+import { useNavigate, useRoutes, useLocation, Outlet } from 'react-router-dom';
 import indexImg from '../../assets/buttomTab/首页-fill.png'
 import indexActiveImg from '../../assets/buttomTab/首页-fill (1).png'
 import sortImg from '../../assets/buttomTab/分类.png'
@@ -27,21 +27,21 @@ function ButtomTab() {
     // console.log(pathname);
     let ref
     switch (pathname) {
-        case '/index/index':
+        case '/index':
             ref = 0
             break;
-        case '/index/sort':
+        case '/sort':
             ref = 1
             break;
-        case '/index/find':
+        case '/find':
             ref = 2
             break;
-        case '/index/my':
+        case '/my':
             ref = 3
             break;
     }  
     // console.log('ref:',ref);
-    const [index, setIndex] = useState(ref)
+    const [index, setIndex] = useState(0)
 
 
 
@@ -99,6 +99,7 @@ function ButtomTab() {
     ]);
 
     return (
+
         <div className="body">
             <div className="router">
                 {element}
@@ -129,6 +130,7 @@ function ButtomTab() {
                     </div>
                 </div>
             </div>
+            {/* <Outlet/> */}
         </div>
 
     )

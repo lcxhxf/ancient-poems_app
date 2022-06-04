@@ -7,7 +7,7 @@ import { SoundOutline } from 'antd-mobile-icons'
 import PoemCard from '../../components/PoemCard/poemCard';
 import { mockRequest } from './mock-request.js'
 import './index.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import servicePath from '../../config/apiUrl';
 import axios from 'axios'
 import store from '../../store';
@@ -470,11 +470,11 @@ function Index(props) {
               randomTenPoems()
             }}
           >
-            <List style={{ minHeight: '100vh' }}>
+            {/* <List style={{ minHeight: '100vh' }}> */}
               {randomPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })}
-            </List>
+            {/* </List> */}
           </PullToRefresh>
         </JumboTabs.Tab>
         <JumboTabs.Tab title='杜甫的诗文' description='' key='3'>
@@ -485,7 +485,7 @@ function Index(props) {
           >
             {dufuPoem.map((item, index) => {
               // {console.log(item);}
-              return <PoemCard key={index} id={index} title={item.name} poet='杜甫 [唐朝]' content={item.content} poemId={item.id} />
+              return <PoemCard key={index} id={index} title={item.name} poet='杜甫 [唐朝]' content={item.content} poemId={item.id} collection={item.collection}/>
             })}
           </PullToRefresh>
         </JumboTabs.Tab>
@@ -497,7 +497,7 @@ function Index(props) {
           >
             {
               libaiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet='李白 [唐朝]' content={item.content}  poemId={item.id}/>
+                return <PoemCard key={index} id={index} title={item.name} poet='李白 [唐朝]' content={item.content}  poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -510,7 +510,7 @@ function Index(props) {
           >
             {
               summerPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -523,7 +523,7 @@ function Index(props) {
           >
             {
               yueFuPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -536,7 +536,7 @@ function Index(props) {
           >
             {
               suShiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -549,7 +549,7 @@ function Index(props) {
           >
             {
               liQingzhaoPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -562,7 +562,7 @@ function Index(props) {
           >
             {
               patrioticPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -575,7 +575,7 @@ function Index(props) {
           >
             {
               writeWaterPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -588,7 +588,7 @@ function Index(props) {
           >
             {
               gracefulPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -601,7 +601,7 @@ function Index(props) {
           >
             {
               xinQiJiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} />
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
               })
             }
           </PullToRefresh>
@@ -622,7 +622,7 @@ function Index(props) {
           </FloatingBubble>
           : ''
       }
-
+      {/* <Outlet/> */}
     </div>
   )
 }

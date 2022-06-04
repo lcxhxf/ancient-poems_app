@@ -27,6 +27,8 @@ import MyCollection from './components/MyCollection/myCollection';
 import MyPoemList from './components/MyPoemList/myPoemList';
 import MyRecitation from './components/MyRecitation/myRecitation';
 import OnePoemDetail from './components/OnePoemDetail/onePoemDetail';
+import AddMyPoemList from './components/AddMyPoemList/addMyPoemList';
+import UpdateMyPoemList from './components/UpdateMyPoemList/updateMyPoemList';
 
 function App() {
   let routes = useRoutes(ALLRoutes);
@@ -72,6 +74,8 @@ function App() {
 
           <Route path="/index/my/myCollection" element={<MyCollection />} ></Route>      {/*我的收藏界面*/}
           <Route path="/index/my/myPoemList" element={<MyPoemList />} ></Route>      {/*我的诗单界面*/}
+          <Route path="/index/my/myPoemList/addMyPoemList" element={<AddMyPoemList />} ></Route>          {/*添加我的诗单界面*/}
+          <Route path="/index/my/myPoemList/updateMyPoemList/:title/:listid" element={<UpdateMyPoemList />} ></Route>          {/*修改我的诗单界面*/}
           <Route path="/index/my/myRecitation" element={<MyRecitation />} ></Route>      {/*我的背诵界面*/}
 
           <Route path="/index/my/myDetail/updateHeadPic" element={<UpdateHeadPic />} ></Route>      {/*修改头像界面*/}
@@ -81,7 +85,7 @@ function App() {
           <Route path="/index/my/myDetail/updatePersonalizedSig" element={<UpdatePersonalizedSig />} ></Route>       {/*修改个性签名界面*/}
           <Route path="/index/my/myDetail/updateBrith" element={<UpdateBrith />} ></Route>          {/*修改生日界面*/}
 
-
+          
         </Routes>
       </div>
     </div>

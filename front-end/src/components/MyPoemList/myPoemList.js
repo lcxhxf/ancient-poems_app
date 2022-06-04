@@ -26,7 +26,7 @@ function MyPoemList() {
     const [value, setValue] = useState('')  // 存储用户名
     const [visible, setVisible] = useState(false)       // 控制面板是否显示
     const [poemList, setPoemList] = useState([])    // tabs数据 [{ id: 1, title: '默认诗单' }, { id: 2, title: '我的最爱' }, { id: 3, title: '最近在看' }]
-    const [key,setKey] = useState(1)    // 设置当前tab的key
+    const [key, setKey] = useState(1)    // 设置当前tab的key
     const [showStatus, setShowStatus] = useState(true);     // 控制页面跳转动画
     const back = () => {
         setShowStatus(false)
@@ -38,19 +38,19 @@ function MyPoemList() {
             text: '添加诗单',
             key: 'copy',
             onClick: async () => {
-                const result = await Dialog.confirm({ content: '确定要删除吗？' })
+                const result = await Dialog.confirm({ content: '确定要添加吗？' })
                 if (result) {
-                    Toast.show('执行了删除操作')
+                    navigate('/index/my/myPoemList/addMyPoemList')
                 }
             },
         },
         {
             text: '修改诗单',
-            key: 'edit', 
+            key: 'edit',
             onClick: async () => {
-                const result = await Dialog.confirm({ content: '确定要删除吗？' })
+                const result = await Dialog.confirm({ content: '确定要修改吗？' })
                 if (result) {
-                    Toast.show('执行了删除操作')
+                    navigate('/index/my/myPoemList/updateMyPoemList/'+ poemList[key].title + '/' + (Number(key) + 1))
                 }
             },
         },
@@ -60,14 +60,38 @@ function MyPoemList() {
             onClick: async () => {
                 const result = await Dialog.confirm({ content: '确定要删除吗？' })
                 if (result) {
-                    poemList.splice(key-1,1)
+                    // console.log(poemList[key]);
+                    poemList.splice(key, 1)
                     setVisible(!visible)
-                    // setKey(poemList[1].id)
+                    let dataProps = {
+                        "listId": Number(key) + 1
+                    }
+                    axios({
+                        method: 'post',
+                        url: servicePath.DeleteList,
+                        data: dataProps,
+                        withCredentials: true
+                    }).then(
+                        res => {
+                            // setIsLoading(false)
+                            if (res.data.result == '删除表单成功') {
+                                Toast.show({
+                                    content: '删除表单成功',
+                                    duration: 1000,
+                                }) 
+                            } else {                       
+                                Toast.show({
+                                    content: '删除表单失败',
+                                    duration: 1000,
+                                })                              
+                            }
+                        }
+                    )
                 }
             },
         },
     ]
-    
+
 
     //拖拽相关的方法
     const reorder = (
@@ -83,7 +107,7 @@ function MyPoemList() {
     }
 
     const [list, setList] = useState(users)
-    const [list1, setList1] = useState([{id:'1',name:'静夜思',description:'李白'},{id:'2',name:'水调歌头',description:'苏轼'},{id:'3',name:'泊秦淮',description:'杜甫'}])
+    const [list1, setList1] = useState([{ id: '1', name: '静夜思', description: '李白' }, { id: '2', name: '水调歌头', description: '苏轼' }, { id: '3', name: '泊秦淮', description: '杜甫' }])
     const onDragEnd = (result) => {
         if (!result.destination) return
         const newList = reorder(list, result.source.index, result.destination.index)
@@ -127,7 +151,7 @@ function MyPoemList() {
     }
     useEffect(() => {
         Init()
-    },[])
+    }, [])
 
 
     const queryPoemListPoems = (key) => {
@@ -135,7 +159,7 @@ function MyPoemList() {
         setKey(key)
         let dataProps = {
             'userId': userId,
-            "listId": Number(key)+1
+            "listId": Number(key) + 1
         }
         axios({
             method: 'post',
@@ -188,38 +212,38 @@ function MyPoemList() {
                             poemList?.map((item, index) => {
                                 return <Tabs.Tab title={item.title} key={index}>
                                     <List header='可拖拽排序'>
-                                <DragDropContext onDragEnd={onDragEnd1}>
-                                    <Droppable droppableId='droppable'>
-                                        {droppableProvided => (
-                                            <div ref={droppableProvided.innerRef}>
-                                                {list1.map((item, index) => (
-                                                    <Draggable key={item.id} draggableId={item.id} index={index}>
-                                                        {(provided, snapshot) => (
-                                                            <div
-                                                                ref={provided.innerRef}
-                                                                {...provided.draggableProps}
-                                                                {...provided.dragHandleProps}
-                                                                style={{
-                                                                    ...provided.draggableProps.style,
-                                                                    opacity: snapshot.isDragging ? 0.8 : 1,
-                                                                }}
-                                                            >
-                                                                <List.Item
-                                                                    key={item.name}
-                                                                    description={item.description}
-                                                                >
-                                                                    {item.name}
-                                                                </List.Item>
-                                                            </div>
-                                                        )}
-                                                    </Draggable>
-                                                ))}
-                                                {droppableProvided.placeholder}
-                                            </div>
-                                        )}
-                                    </Droppable>
-                                </DragDropContext>
-                            </List>
+                                        <DragDropContext onDragEnd={onDragEnd1}>
+                                            <Droppable droppableId='droppable'>
+                                                {droppableProvided => (
+                                                    <div ref={droppableProvided.innerRef}>
+                                                        {list1.map((item, index) => (
+                                                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                                                                {(provided, snapshot) => (
+                                                                    <div
+                                                                        ref={provided.innerRef}
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        style={{
+                                                                            ...provided.draggableProps.style,
+                                                                            opacity: snapshot.isDragging ? 0.8 : 1,
+                                                                        }}
+                                                                    >
+                                                                        <List.Item
+                                                                            key={item.name}
+                                                                            description={item.description}
+                                                                        >
+                                                                            {item.name}
+                                                                        </List.Item>
+                                                                    </div>
+                                                                )}
+                                                            </Draggable>
+                                                        ))}
+                                                        {droppableProvided.placeholder}
+                                                    </div>
+                                                )}
+                                            </Droppable>
+                                        </DragDropContext>
+                                    </List>
                                 </Tabs.Tab>
                             })
                         }

@@ -7,8 +7,8 @@ const Controller = require('egg').Controller;
 class PoemListController extends Controller {
 
     async CreateList() { // 创建诗单，没有做查重处理
-        const { name, userId } = this.ctx.request.body;
-        const sql = `INSERT INTO t_total_list(name,userId) VALUES ('${name}',${userId})`
+        const { title, userId } = this.ctx.request.body;
+        const sql = `INSERT INTO t_total_list(title,userId) VALUES ('${title}',${userId})`
         const res = await this.app.mysql.query(sql);
         this.ctx.body = { "result": "创建表单成功", 'res': res };
     }
@@ -21,8 +21,9 @@ class PoemListController extends Controller {
     }
 
     async UpdateList() {
-        const { listId, name } = this.ctx.request.body;
-        const sql = `UPDATE	t_total_list  SET name = '${name}' WHERE id = ${listId};`
+        const { listId, title } = this.ctx.request.body;
+        console.log(listId, title);
+        const sql = `UPDATE	t_total_list  SET title = '${title}' WHERE id = ${listId};`
         const res = await this.app.mysql.query(sql);
         this.ctx.body = { "result": "更新成功", 'res': res };
     }

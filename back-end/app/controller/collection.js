@@ -13,16 +13,18 @@ class CollectionController extends Controller {
         const sql = " SELECT * FROM  t_collection_poem  WHERE  beCollectedId= '" + collectionId + "' AND  userId = '" + userId + "' "
         const res = await this.app.mysql.query(sql);
         if (res.length > 0) {
+            const results = await this.app.mysql.query('update t_poems_poem set collection = ? where id = ?', [0, collectionId]);
             const sql4 = `DELETE FROM t_collection_poem WHERE userId = ${userId}  AND beCollectedId= ${collectionId}`
             const res4 = await this.app.mysql.query(sql4);
             this.ctx.body = { 'result': "取消收藏成功", 'res': res };
         } else {
-            const sql2 = " SELECT type FROM  t_poems_poem  WHERE  id = '" + collectionId + "' "  // 获取type 类型，用做添加操作的字段
-            const res2 = await this.app.mysql.query(sql2);
+            // const sql2 = " SELECT type FROM  t_poems_poem  WHERE  id = '" + collectionId + "' "  // 获取type 类型，用做添加操作的字段
+            // const res2 = await this.app.mysql.query(sql2);
 
             // console.log(typeof time);
             // console.log(typeof res2[0].type);
-            const sql3 = `INSERT INTO t_collection_poem(type,userId,beCollectedId) VALUES('${res2[0].type}',${userId},${collectionId})`
+            const results = await this.app.mysql.query('update t_poems_poem set collection = ? where id = ?', [1, collectionId]);
+            const sql3 = `INSERT INTO t_collection_poem(userId,beCollectedId) VALUES(${userId},${collectionId})`
             const res3 = await this.app.mysql.query(sql3);
 
             this.ctx.body = { 'result': "收藏成功" };
