@@ -28,8 +28,16 @@ const items = colors.map((color, index) => (    // 轮播图设置
 function Find(props) {
 
   let navigate = useNavigate();
+  let token = localStorage.getItem('token')
 
   const goFindDetail = () => {
+    if( token == null) {
+      Toast.show({
+          content: '请先登录',
+          duration: 1000,
+      })
+      return
+  }
     navigate('/index/find/findDetail')
   }
 

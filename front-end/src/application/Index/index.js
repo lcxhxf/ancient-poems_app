@@ -3,7 +3,7 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchBar, List, JumboTabs, PullToRefresh, FloatingBubble, Toast } from 'antd-mobile'
-import { SoundOutline } from 'antd-mobile-icons'
+import { SoundOutline, UpOutline } from 'antd-mobile-icons'
 import PoemCard from '../../components/PoemCard/poemCard';
 import { mockRequest } from './mock-request.js'
 import './index.css'
@@ -11,6 +11,8 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import servicePath from '../../config/apiUrl';
 import axios from 'axios'
 import store from '../../store';
+import { throttle } from '../../utils/throttle.js';
+import { Container } from './style';
 
 var Mock = require('mockjs')
 
@@ -20,6 +22,7 @@ function Index(props) {
 
 
   let navigate = useNavigate();
+  let token = localStorage.getItem('token')
 
   // mock数据
   var Random = Mock.Random
@@ -28,7 +31,8 @@ function Index(props) {
     .map((_, i) => (Random.csentence(14, 20)))
 
   const itemCount = useRef(0)   // 记录第几个JumboTabs.Tab
-  const [poemList, setPoemList] = useState([[], [], [], [], [], [], [], [], [], [], [], []])   // 存储每个分类请求的诗词
+  const [poemList, setPoemList] = useState([[], [], [], [], [], [], [], [], [], [], [], [], []])   // 存储每个分类请求的诗词
+  const [browseHistory, setBrowseHistory] = useState(dataInit.poemList[12])  // 存储历史记录的诗词
   const [randomPoem, setRandomPoem] = useState(dataInit.poemList[1])  // 存储随机十首的诗词
   const [dufuPoem, setDufuPoem] = useState(dataInit.poemList[2])  // 存储杜甫的诗词
   const [libaiPoem, setLibaiPoem] = useState(dataInit.poemList[3])  // 存储李白的诗词
@@ -43,6 +47,7 @@ function Index(props) {
 
 
   let dataProps = {}    // 请求发送的对象参数
+  let userId = localStorage.getItem('userId')
 
   const [data, setData] = useState([{ verse: '雨打梨花深闭门，忘了青春，误了青春。', title: '唐寅 《一剪梅·雨打梨花深闭门》' }, { verse: '春宵一刻值千金，花有清香月有阴。', title: '苏轼 《春宵·春宵一刻值千金》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '雨打梨花深闭门，忘了青春，误了青春。', title: '唐寅 《一剪梅·雨打梨花深闭门》' }, { verse: '春宵一刻值千金，花有清香月有阴。', title: '苏轼 《春宵·春宵一刻值千金》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '雨打梨花深闭门，忘了青春，误了青春。', title: '唐寅 《一剪梅·雨打梨花深闭门》' }, { verse: '春宵一刻值千金，花有清香月有阴。', title: '苏轼 《春宵·春宵一刻值千金》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '雨打梨花深闭门，忘了青春，误了青春。', title: '唐寅 《一剪梅·雨打梨花深闭门》' }, { verse: '春宵一刻值千金，花有清香月有阴。', title: '苏轼 《春宵·春宵一刻值千金》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }, { verse: '人面不知何处去，桃花依旧笑春风。', title: '崔护 《题都城南庄》' }])
   const [poem, setPoem] = useState([{ 'title': '水调歌头·明月几时有', 'poet': '苏轼 [宋代]', 'content': '丙辰中秋，欢饮达旦，大醉，作此篇，兼怀子由。明月几时有？把酒问青天。不知天上宫阙，今夕是何年。我欲乘风归去，又恐琼楼玉宇，高处不胜寒。起舞弄清影，何似在人间。' }, { 'title': '蝶恋花·春景', 'poet': '苏轼 [宋代]', 'content': '花褪残红青杏小。  燕子飞时，绿水人家绕。  枝上柳绵吹又少。  天涯何处无芳草。  墙里秋千墙外道。  墙外行人，墙里佳人笑。  笑渐不闻声渐悄。多情却被无情恼。' }, { 'title': '满庭芳', 'poet': '苏轼 [宋代]', 'content': '三十三年，今谁存者，算只君与长江。  凛然苍桧，霜干苦难双。  闻道司州古县，云溪上、竹坞松窗。  江南岸，不因送子，宁肯过吾邦。  摐摐。  疏雨过，风林舞破，烟盖云幢。  愿持此邀君，一饮空缸。  居士先生老矣，真梦里、相对残釭。  歌舞断，行人未起，船鼓已逄逄。' }, { 'title': '临江仙', 'poet': '苏轼 [宋代]', 'content': '尊酒何人怀李白，草堂遥指江东。  珠帘十里卷香风。  花开又花谢，离恨几千重。  轻舸渡江连夜到，一时惊笑衰容。  语音犹自带吴侬。  夜阑对酒处，依旧梦魂中。' }, { 'title': '定风波·重阳', 'poet': '苏轼 [宋代]', 'content': '与客携壶上翠微。江涵秋影雁初飞。  尘世难逢开口笑。年少，  菊花须插满头归。酩酊但酬佳节了。  云峤。登临不用怨斜晖。  古往今来谁不老。多少。  牛山何必更沾衣。' }])
@@ -95,8 +100,46 @@ function Index(props) {
     navigate('/index/index/search')
   }
 
+
   const queryPoem = (key) => {
     // console.log(key);
+    if (key == '1') {
+      if( token == null) {
+        Toast.show({
+            content: '请先登录',
+            duration: 1000,
+        })
+        return
+    }
+      dataProps = {   // 请求的数据格式
+        "userId": userId,
+        "page": 1
+      }
+      itemCount.current = 12
+      axios({
+        method: 'post',
+        url: servicePath.SearchHistory,
+        data: dataProps,
+        withCredentials: true
+      }).then(
+        res => {
+          if (res.data.result == '查询历史记录成功') {
+            setBrowseHistory(res.data.res)
+            poemList[12] = res.data.res
+
+            const action = {
+              type: 'changePoemList',
+              value: poemList,
+              itemCount: itemCount.current,
+              key: key
+            }
+            store.dispatch(action)
+          } else {
+
+          }
+        }
+      )
+    }
     if (key == '3') {
       dataProps = {   // 请求的数据格式
         'author': '杜甫',
@@ -442,22 +485,57 @@ function Index(props) {
 
   }
 
+  // 回到顶部的相关方法
+  const [visibleBackTopBtn, setVisibleBackTopBtn] = useState(false)
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll, true)
+    return () => document.removeEventListener('scroll', handleScroll)
+  }, [visibleBackTopBtn])
+
+  const handleScroll = throttle(() => {
+    const scrollTop = window.scrollY
+    console.log(scrollTop, '!!!!!!!!!!!');
+    // scrollTop为距离滚动条顶部高度
+    // scrollHeight为整个文档高度
+
+    if (scrollTop > 200) {
+      setVisibleBackTopBtn(true)
+    } else {
+      setVisibleBackTopBtn(false)
+    }
+
+  }, 500)
+
+  // 去到顶部
+  const goTop = () => {
+    window.scrollTo(
+      {
+        left: 0,
+        top: 0,
+        behavior: 'smooth'
+      }
+    )
+  }
   return (
     <div className='Container '>
-      <List>
-        <List.Item>
-          <SearchBar placeholder='搜索' onFocus={goSearch} />
-        </List.Item>
-      </List>
+      <Container>
+        <List>
+          <List.Item>
+            <SearchBar placeholder='搜索' onFocus={goSearch} />
+          </List.Item>
+        </List>
+      </Container>
+
       <JumboTabs defaultActiveKey={dataInit.key} onChange={queryPoem}>
         <JumboTabs.Tab title='足迹' description='' key='1'>
           <PullToRefresh
             onRefresh={async () => {
+              randomTenPoems()
             }}
           >
-            {poem.map((item, index) => {
+            {browseHistory.map((item, index) => {
               // {console.log(item);}
-              return <PoemCard key={index} id={index} title={item.title} poet={item.poet} content={item.content} isShowPop={isShowPop} />
+              return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
             })}
 
             {/* <InfiniteScroll loadMore={loadMore} hasMore={hasMore} /> */}
@@ -471,9 +549,9 @@ function Index(props) {
             }}
           >
             {/* <List style={{ minHeight: '100vh' }}> */}
-              {randomPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
-              })}
+            {randomPoem.map((item, index) => {
+              return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
+            })}
             {/* </List> */}
           </PullToRefresh>
         </JumboTabs.Tab>
@@ -485,7 +563,7 @@ function Index(props) {
           >
             {dufuPoem.map((item, index) => {
               // {console.log(item);}
-              return <PoemCard key={index} id={index} title={item.name} poet='杜甫 [唐朝]' content={item.content} poemId={item.id} collection={item.collection}/>
+              return <PoemCard key={index} id={index} title={item.name} poet='杜甫 [唐朝]' content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
             })}
           </PullToRefresh>
         </JumboTabs.Tab>
@@ -497,7 +575,7 @@ function Index(props) {
           >
             {
               libaiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet='李白 [唐朝]' content={item.content}  poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet='李白 [唐朝]' content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -510,7 +588,7 @@ function Index(props) {
           >
             {
               summerPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -523,7 +601,7 @@ function Index(props) {
           >
             {
               yueFuPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -536,7 +614,7 @@ function Index(props) {
           >
             {
               suShiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -549,7 +627,7 @@ function Index(props) {
           >
             {
               liQingzhaoPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -562,7 +640,7 @@ function Index(props) {
           >
             {
               patrioticPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -575,7 +653,7 @@ function Index(props) {
           >
             {
               writeWaterPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -588,7 +666,7 @@ function Index(props) {
           >
             {
               gracefulPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -601,7 +679,7 @@ function Index(props) {
           >
             {
               xinQiJiPoem.map((item, index) => {
-                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection}/>
+                return <PoemCard key={index} id={index} title={item.name} poet={item.author + ' [' + item.dynasty + ']'} content={item.content} poemId={item.id} collection={item.collection} isShowPop={isShowPop} />
               })
             }
           </PullToRefresh>
@@ -619,6 +697,22 @@ function Index(props) {
             }}
           >
             <SoundOutline fontSize={32} />
+          </FloatingBubble>
+          : ''
+      }
+      {
+        visibleBackTopBtn == true ?
+          <FloatingBubble
+            axis='xy'
+            magnetic='x'
+            style={{
+              '--initial-position-bottom': '184px',
+              '--initial-position-right': '24px',
+              '--edge-distance': '24px',
+            }}
+            onClick={goTop}
+          >
+            <UpOutline fontSize={32} />
           </FloatingBubble>
           : ''
       }

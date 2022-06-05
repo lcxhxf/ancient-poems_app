@@ -5,4 +5,20 @@
 .content1 {
     height: unset !important;
 }
-
+/* .adm-list, .adm-list-default {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+} */
+.adm-jumbo-tabs-header {
+    position: fixed;
+    top: .57rem;
+    left: 0;
+    background-color: #f2f3f4;
+    z-index: 2;
+}
+.adm-jumbo-tabs-content {
+    margin-top: 1.06rem;
+}

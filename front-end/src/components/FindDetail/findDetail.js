@@ -9,48 +9,81 @@ import { Container, Buttom, NavBarStyle, ContentStyle } from './style';
 import { CSSTransition } from 'react-transition-group';
 import './findDetail.css'
 import DialogBox from '../DialogBox/dialogBox';
+import axios from 'axios'
+import servicePath from '../../config/apiUrl';
+import store from '../../store';
 
 var Mock = require('mockjs')
 
 function FindDetail() {
+
+    let dataInit = store.getState()   // 得到redux全局的数据
+
     var Random = Mock.Random
     let navigate = useNavigate();
     const [showStatus, setShowStatus] = useState(true);     // 控制页面跳转动画
-
     const [talkCount, setTalkCount] = useState([])      // 存储对话框
     const [Count, setCount] = useState(0)      // 控制第一次对话
     const [value, setValue] = useState()       // 输入框输入的值
- 
+    var arr = ['春', '兰', '花', '明', '国'];
+    var item = arr[Math.floor(Math.random() * arr.length)];
+    const [keywords, setKeyWords] = useState(item)
+
     let ref = useRef();     // 存储返回的值
 
 
-    const [lan, setLan] = useState(['山下兰芽短浸溪，松间沙路净无泥。','兰陵美酒郁金香，玉碗盛来琥珀光。','嗟余听鼓应官去，走马兰台类转蓬。','涉江采芙蓉，兰泽多芳草。','昆山玉碎凤凰叫，芙蓉泣露香兰笑。','兰溪三日桃花雨，半夜鲤鱼来上滩。','幽兰泣露新香死，画图浅缥松溪水。','木兰舟上如花女，采得莲房爱子多。'])
-
+    // const [lan, setLan] = useState(['山下兰芽短浸溪，松间沙路净无泥。','兰陵美酒郁金香，玉碗盛来琥珀光。','嗟余听鼓应官去，走马兰台类转蓬。','涉江采芙蓉，兰泽多芳草。','昆山玉碎凤凰叫，芙蓉泣露香兰笑。','兰溪三日桃花雨，半夜鲤鱼来上滩。','幽兰泣露新香死，画图浅缥松溪水。','木兰舟上如花女，采得莲房爱子多。'])
+    const [lan,setLan] = useState(dataInit.feihualing) 
 
 
     // 控制第一次对话
     if (Count == 0) {
         setTimeout(() => {
-            setTalkCount([...talkCount, { isRight: true, content: '我们来玩飞花令吧，今日飞“兰”字。' }, { isRight: false, content: '黄金百战穿金甲，不破楼兰终不还。' }])
+            setTalkCount([...talkCount, { isRight: true, content: `我们来玩飞花令吧，今日飞“${keywords}”字。` }, { isRight: false, content: '好啊，开始吧！' }])
         }, 1000)
         setCount(1)
     }
 
     const talk = () => {
-        if(value.includes('兰')) {
+        if (value.includes(keywords)) {
             console.log('111');
             ref.current = lan[0]
             lan.shift()
-        } else{
+        } else {
             console.log('222');
-            ref.current = '"兰"呢？我们飞的"兰"字哦。'
+            ref.current = `"${keywords}"呢？我们飞的"${keywords}"字哦。`
+            // ref.current = '"兰"呢？我们飞的"兰"字哦。'
         }
-        let obj1 = { isRight: true, content: value}
+        let obj1 = { isRight: true, content: value }
         let obj2 = { isRight: false, content: ref.current }
-        setTalkCount([...talkCount,obj1,obj2])
+        setTalkCount([...talkCount, obj1, obj2])
     }
 
+    const init = () => {
+        let dataProps = {   // 请求的数据格式
+            key: keywords
+        }
+        axios({
+            method: 'post',
+            url: servicePath.GetAnswer,
+            data: dataProps,
+            withCredentials: true
+        }).then(
+            res => {
+                if (res.data.data == '获取答案成功') {
+                    setLan(res.data.res)
+                    // console.log(res.data.res,'11111111');
+                    const action = {
+                        type: 'changeFeiHuaLing',
+                        feihualing:res.data.res
+                      }
+                      store.dispatch(action)
+                } else {
 
+                }
+            }
+        )
+    }
 
 
     const groups = Array(26)
@@ -74,8 +107,9 @@ function FindDetail() {
 
     const queryRef = useRef();
     useEffect(() => {
+        init()
         queryRef.current.focus();
-    }, []);
+    },[]);
     return (
         <CSSTransition
             in={showStatus}
@@ -89,7 +123,7 @@ function FindDetail() {
                 <Fragment>
                     <NavBarStyle>
                         <NavBar backArrow={<CloseOutline />} right={right} onBack={back}>
-                            飞花令：兰
+                            飞花令：{keywords}
                         </NavBar>
                     </NavBarStyle>
                     <ContentStyle>
@@ -107,7 +141,7 @@ function FindDetail() {
                         </PullToRefresh>
                     </ContentStyle>
                     <Buttom>
-                        <SearchBar ref={queryRef} icon={null} onChange={(val) => { setValue(val) }} onSearch={() => {talk()}} onCancel={() => {talk()}} cancelText='发送' placeholder='请输入内容' showCancelButton={() => true} />
+                        <SearchBar ref={queryRef} icon={null} onChange={(val) => { setValue(val) }} onSearch={() => { talk() }} onCancel={() => { talk() }}  cancelText='发送' placeholder='请输入内容' showCancelButton={() => true} />
                     </Buttom>
                 </Fragment>
             </Container>

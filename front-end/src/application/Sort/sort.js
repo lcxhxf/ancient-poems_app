@@ -10,6 +10,7 @@ import axios from 'axios'
 
 function Sort(props) {
   let navigate = useNavigate();
+  let token = localStorage.getItem('token')
   const [type, setType] = useState([])  // 存放诗文的类型种类
   const [author, setAuthor] = useState([{ "name": "李白" }, { "name": "杜甫" }, { "name": "苏轼" }, { "name": "王维" }, { "name": "杜牧" }, { "name": "陆游" }, , { "name": "白居易" }, { "name": "辛弃疾" }, { "name": "李清照" }, { "name": "刘禹锡" }, { "name": "李商隐" }, { "name": "陶渊明" }, { "name": "孟浩然" }, { "name": "柳宗元" }, { "name": "王安石" }, { "name": "欧阳修" }, { "name": "温庭筠" }, { "name": "杨万里" }, { "name": "诸葛亮" }, { "name": "范仲淹" }, { "name": "张九龄" }, { "name": "元稹" }, { "name": "李煜" }, { "name": "司马迁" }, { "name": "岑参" }, { "name": "韩愈" }, { "name": "齐己" }, { "name": "贾岛" }, { "name": "曹操" }, { "name": "柳永" }, { "name": "李贺" }, { "name": "张籍" }, { "name": "曹植" }, { "name": "皎然" }, { "name": "孟郊" }, { "name": "贯休" }, { "name": "许浑" }, { "name": "罗隐" }, { "name": "张祜" }, { "name": "王建" }, { "name": "韦庄" }, { "name": "王勃" }, { "name": "姚合" }, { "name": "晏殊" }, { "name": "卢纶" }, { "name": "岳飞" }, { "name": "屈原" }, { "name": "钱起" }, { "name": "秦观" }, { "name": "马致远" }, { "name": "黄庭坚" }, { "name": "卓文君" }])  // 存放诗文的作者分类
   const [dynasty, setDynasty] = useState([])  // 存放诗文的朝代分类
@@ -92,6 +93,13 @@ const {xianqin,lianghan,weijin,nanbeichao,suichao,tangchao,wudai,nansong,beisong
   }
 
    const goSortDetail = (e) => {
+    if( token == null) {
+      Toast.show({
+          content: '请先登录',
+          duration: 1000,
+      })
+      return
+  }
     console.log(e.target.innerText);
     navigate('/index/sort/sortDetail/' + e.target.innerText)
   }

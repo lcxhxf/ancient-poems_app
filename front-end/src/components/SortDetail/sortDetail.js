@@ -41,6 +41,11 @@ function SortDetail() {
                         value: res.data.res1,
                       }
                       store.dispatch(action)
+                }else if (res.data.data == '没有token') {
+                    Toast.show({
+                        content: '请先登录',
+                        duration: 1000,
+                    })
                 } else {
                     Toast.show({
                         content: '查询失败',

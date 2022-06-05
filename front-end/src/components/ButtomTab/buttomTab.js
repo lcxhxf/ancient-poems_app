@@ -18,48 +18,71 @@ import findImg from '../../assets/buttomTab/发现激活.png'
 import findAvtiveImg from '../../assets/buttomTab/发现激活 (1).png'
 import myImg from '../../assets/buttomTab/我的-我的.png'
 import myActiveImg from '../../assets/buttomTab/我的-我的 (1).png'
+import store from '../../store';
 
 function ButtomTab() {
 
     // 初始化index的值
     const location = useLocation()
     const { pathname } = location
+    let dataInit = store.getState()   // 得到redux全局的数据
     // console.log(pathname);
-    let ref
+    let ref = 0
+    // console.log(pathname);
     switch (pathname) {
-        case '/index':
+        case '/index/index':
             ref = 0
             break;
-        case '/sort':
+        case '/index/sort':
             ref = 1
             break;
-        case '/find':
+        case '/index/find':
             ref = 2
             break;
-        case '/my':
+        case '/index/my':
             ref = 3
             break;
-    }  
-    // console.log('ref:',ref);
-    const [index, setIndex] = useState(0)
+    }
+    console.log('ref:',ref);
+    const [index, setIndex] = useState(ref)
 
 
 
     // 根据点击跳转到路由相应的子路由
     let navigate = useNavigate();
     const goIndex = () => {
+        const action = {
+            type: 'changeIndex',
+            index: 0
+        }
+        store.dispatch(action)
         navigate('/index/index')
         setIndex(0)
     }
     const goSort = () => {
+        const action = {
+            type: 'changeIndex',
+            index: 1
+        }
+        store.dispatch(action)
         navigate('/index/sort')
         setIndex(1)
     }
     const goFind = () => {
+        const action = {
+            type: 'changeIndex',
+            index: 2
+        }
+        store.dispatch(action)
         navigate('/index/find')
         setIndex(2)
     }
     const goMy = () => {
+        const action = {
+            type: 'changeIndex',
+            index: 3
+        }
+        store.dispatch(action)
         navigate('/index/my')
         setIndex(3)
     }

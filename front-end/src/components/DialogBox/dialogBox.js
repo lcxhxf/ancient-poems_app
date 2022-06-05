@@ -30,7 +30,7 @@ function DialogBox(props) {
                             trigger='click'
                             visible
                         >
-                            <Avatar src='https://s2.loli.net/2022/03/31/hPbn74XEKI9dVqW.png' style={{ '--size': '42px', marginTop: '0.2rem', marginLeft: '10px' }} />
+                            <Avatar src='http://zengjichaoren.xyz:7001/public/upload/1651474479686hPbn74XEKI9dVqW.png' style={{ '--size': '42px', marginTop: '0.2rem', marginLeft: '10px' }} />
                         </Popover>
                     </div>
             }

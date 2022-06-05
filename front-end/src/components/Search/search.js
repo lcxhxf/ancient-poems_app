@@ -11,6 +11,7 @@ import servicePath from '../../config/apiUrl';
 import axios from 'axios'
 import PoemCard from '../PoemCard/poemCard';
 import store from '../../store';
+import { throttle } from '../../utils/throttle.js'
 
 function Search() {
 
@@ -19,6 +20,7 @@ function Search() {
     const [value2, setValue2] = useState([])              // 搜索后，查询的结果
     const searchRef = useRef(null)
     let dataProps = {}                                  // 请求发送的对象参数
+    let token = localStorage.getItem('token')
 
     const goIndex = () => {
         // navigate('/index/index')
@@ -44,21 +46,13 @@ function Search() {
             Toast.show('delete')
         },
     }
-    function throttle(fun, time) {
-        let t1 = 0 //初始时间
-        return function () {
-            let t2 = new Date() //当前时间
-            if (t2 - t1 > time) {
-                fun.apply(this, arguments)
-                t1 = t2
-            }
-        }
-    }
+
 
     const searchList = (val) => {               // 模糊查询展示
         // console.log('val',val);
         dataProps = {   // 请求的数据格式
             'input': val,
+            'token':token
         }
         if (val != '') {
             axios({
@@ -77,6 +71,11 @@ function Search() {
                             data.push(res.data.res2[i].name)
                         }
                         setValue(data)
+                    }else if (res.data.data == '没有token') {
+                        Toast.show({
+                            content: '请先登录',
+                            duration: 1000,
+                        })
                     } else {
                         Toast.show({
                             content: '未查询到',
@@ -158,6 +157,7 @@ function Search() {
     const search = (val) => {                   // 搜索
         dataProps = {   // 请求的数据格式
             'input': val,
+            'token':token
         }
         if (val != null) {
             axios({
@@ -174,7 +174,12 @@ function Search() {
                             value: res.data.res1,
                         }
                         store.dispatch(action)
-                    } else {
+                    }else if (res.data.data == '没有token') {
+                        Toast.show({
+                            content: '请先登录',
+                            duration: 1000,
+                        })
+                    }else {
                         Toast.show({
                             content: '未查询到',
                             duration: 1000,
@@ -202,7 +207,7 @@ function Search() {
                 <Fragment>
                     <List>
                         <List.Item>
-                            <SearchBar ref={queryRef} placeholder='搜索' icon={icon} onChange={(val) => { throttle(searchList(val), 3500) }} onSearch={(val) => { search(val) }} onFocus={() => openKeyboard('demo1')} onBlur={() => { setVisible('') }} />
+                            <SearchBar ref={queryRef} placeholder='搜索' icon={icon} onChange={(val) => { throttle(searchList(val), 2000) }} onSearch={(val) => { search(val) }} onFocus={() => openKeyboard('demo1')} onBlur={() => { setVisible('') }} />
                         </List.Item>
                     </List>
                     <List style={{ minHeight: '100vh' }}>
@@ -217,18 +222,19 @@ function Search() {
                         >
                             {value2.map((item, index) => {
                                 // {console.log(item);}
-                                return <PoemCard key={index} id={index} title={item.name} poet={item.author} content={item.content} />
+                                console.log(item.id);
+                                return <PoemCard key={index} id={index} title={item.name} poet={item.author} content={item.content} poemId={item.id} collection={item.collection}/>
                             })}
 
                             {/* <InfiniteScroll loadMore={loadMore} hasMore={hasMore} /> */}
                         </PullToRefresh>
                     </List>
-                    <NumberKeyboard
+                    {/* <NumberKeyboard
                         visible={visible === 'demo1'}
                         onClose={actions.onClose}
                         onInput={actions.onInput}
                         onDelete={actions.onDelete}
-                    />
+                    /> */}
                 </Fragment>
             </Container>
         </CSSTransition>

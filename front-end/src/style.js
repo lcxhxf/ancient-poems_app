@@ -3,6 +3,8 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`
 	html {
     	font-size: 100px!important;
+  		scroll-behavior: smooth;
+
 	}
 
 	body {

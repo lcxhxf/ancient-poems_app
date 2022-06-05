@@ -16,8 +16,9 @@ class BrowseHistoryController extends Controller {
 
     async SearchHistory() { // 返回的 res 是一个对象，里面存放着poemId,要调用查找poemId的接口查询详细的poem数据
         const { userId, page } = this.ctx.request.body;
-        const limit = 5;
-        const sql = `SELECT t_history_watch.id, t_poems_poem.name, t_poems_poem.author as description from t_history_watch INNER JOIN t_poems_poem ON t_history_watch.poemId = t_poems_poem.id where userId = ${userId} Order by inputTime desc limit  ${(page - 1) * limit}, ${page * limit}`
+        const limit = 10;
+        // const sql = `SELECT t_history_watch.id, t_poems_poem.name, t_poems_poem.author as description from t_history_watch INNER JOIN t_poems_poem ON t_history_watch.poemId = t_poems_poem.id where userId = ${userId} Order by inputTime desc limit  ${(page - 1) * limit}, ${page * limit}`
+        const sql = `SELECT * from t_history_watch INNER JOIN t_poems_poem ON t_history_watch.poemId = t_poems_poem.id where userId = ${userId} Order by inputTime desc limit  ${(page - 1) * limit}, ${page * limit}`
         const res = await this.app.mysql.query(sql);
         if (res.length > 0) {
             this.ctx.body = { 'result': '查询历史记录成功', 'res': res };

@@ -27,8 +27,8 @@ module.exports = app => {
   router.post('/QuerySomeTypePoem',controller.queryPoems.QuerySomeTypePoem)
 
   // 搜索功能
-  router.post('/FuzzySearch',controller.search.FuzzySearch)
-  router.post('/Search',controller.search.Search)
+  router.post('/FuzzySearch',loginAuth,controller.search.FuzzySearch)
+  router.post('/Search',loginAuth,controller.search.Search)
   router.post('/NameSearch',controller.search.NameSearch)
   router.post('/SearchType',controller.search.SearchType)
   router.post('/SearchPoet',controller.search.SearchPoet)
@@ -67,5 +67,9 @@ module.exports = app => {
   router.post('/AddTest', controller.test.AddTest)
   router.get('/QueryTest', controller.test.QueryTest)
 
+  // 飞花令
+  router.post('/GetAnswer', controller.feiHuaLing.GetAnswer)  // 用来根据随机数活得答案
+  router.post('/CheckAnswer', controller.feiHuaLing.CheckAnswer) // 用来检测用户的答案
+  router.get('/ChangeAllAnswer', controller.feiHuaLing.ChangeAllAnswer) // 用来改变所有答案状态，飞花令结束时候出触发
 
 };
