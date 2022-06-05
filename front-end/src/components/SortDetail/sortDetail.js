@@ -17,6 +17,7 @@ var Mock = require('mockjs')
 function SortDetail() {
 
     const {  searchPoemList } = store.getState()
+    let token = localStorage.getItem('token')
     
     // 获取路由参数
     const param = useParams()
@@ -26,6 +27,7 @@ function SortDetail() {
     function getTypePoem() {            // 请求该类型对应的诗文
         dataProps = {                   // 请求的数据格式
             'input': param.type,
+            'token': token
         }
         axios({
             method: 'post',
