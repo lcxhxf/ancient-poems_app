@@ -99,7 +99,8 @@ class userInfoUpdateController extends Controller {
         // await fs.unlinkSync(file.filepath)
         
         // 返回前端路径
-        const newUrl = "http://zengjichaoren.xyz:7001/" + toFileName;
+        const newUrl = "http://localhost:7001" + toFileName;
+        // const newUrl = "http://zengjichaoren.xyz:7001" + toFileName;
         // console.log(this.ctx.request.files[0])
         
         // 存储到数据库
