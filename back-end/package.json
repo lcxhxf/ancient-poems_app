@@ -31,7 +31,7 @@
     "start": "egg-scripts start --port=7001 --daemon --title=egg-server-back-end",
     "stop": "egg-scripts stop --title=egg-server-back-end",
     "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
+    "debug": "pm2 start npm – run dev debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",

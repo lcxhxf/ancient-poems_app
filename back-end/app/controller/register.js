@@ -9,9 +9,9 @@ class RegisterController extends Controller {
   async register() {    // 注册
     const crypto = require('crypto');
     let userName = this.ctx.request.body.userName
-    userName = userName.replaceAll("'", "");
+    // userName = userName.replaceAll("'", "");
     let password = this.ctx.request.body.password
-    password = password.replaceAll("'", "");
+    // password = password.replaceAll("'", "");
     const pwd = crypto.createHash('md5').update(password).digest('hex');
     const sql = " SELECT userName, headPicPath, personalizedSig, sex, brith FROM user WHERE userName = '" + userName +  // 查询数据库是否已经注册
       "' AND password = '" + pwd + "'"

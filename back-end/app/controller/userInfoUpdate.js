@@ -10,7 +10,7 @@ class userInfoUpdateController extends Controller {
 
         let userId = this.ctx.request.body.userId
         let userName = this.ctx.request.body.userName
-        userName = userName.replaceAll("'", "");
+        // userName = userName.replaceAll("'", "");
         // console.log('userId:'+userId);
         // console.log('userName:'+userName);
         const results = await this.app.mysql.query('update user set userName = ? where userId = ?', [userName, userId]);
@@ -35,7 +35,7 @@ class userInfoUpdateController extends Controller {
 
         let userId = this.ctx.request.body.userId
         let personalizedSig = this.ctx.request.body.personalizedSig
-        personalizedSig = personalizedSig.replaceAll("'", "");
+        // personalizedSig = personalizedSig.replaceAll("'", "");
         console.log('userId:' + userId);
         console.log('personalizedSig:' + personalizedSig);
         const results = await this.app.mysql.query('update user set personalizedSig = ? where userId = ?', [personalizedSig, userId]);
@@ -48,9 +48,9 @@ class userInfoUpdateController extends Controller {
 
         let userId = this.ctx.request.body.userId
         let password = this.ctx.request.body.password
-        password = password.replaceAll("'", "");
+        // password = password.replaceAll("'", "");
         let newPassword = this.ctx.request.body.newPassword
-        newPassword = newPassword.replaceAll("'", "");
+        // newPassword = newPassword.replaceAll("'", "");
         console.log('password:' + password);
         console.log('newPassword:' + newPassword);
 
@@ -99,7 +99,7 @@ class userInfoUpdateController extends Controller {
         // await fs.unlinkSync(file.filepath)
         
         // 返回前端路径
-        const newUrl = "http://127.0.0.1:7001" + toFileName;
+        const newUrl = "http://zengjichaoren.xyz:7001/" + toFileName;
         // console.log(this.ctx.request.files[0])
         
         // 存储到数据库
