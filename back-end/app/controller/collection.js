@@ -37,8 +37,8 @@ class CollectionController extends Controller {
         console.log(userId, page);
         const limit = 5;  // 限制一页多少条数据
 
-
-        const sql = `SELECT t_collection_poem.id, t_poems_poem.name, t_poems_poem.author as description  FROM t_collection_poem INNER JOIN t_poems_poem ON t_collection_poem.beCollectedId = t_poems_poem.id WHERE t_collection_poem.userId = ${userId} limit ${(page - 1) * limit}, ${page * limit} `;
+        const sql = `SELECT t_collection_poem.id, t_poems_poem.name, t_poems_poem.author as description  FROM t_collection_poem INNER JOIN t_poems_poem ON t_collection_poem.beCollectedId = t_poems_poem.id WHERE t_collection_poem.userId = ${userId} `;
+        // const sql = `SELECT t_collection_poem.id, t_poems_poem.name, t_poems_poem.author as description  FROM t_collection_poem INNER JOIN t_poems_poem ON t_collection_poem.beCollectedId = t_poems_poem.id WHERE t_collection_poem.userId = ${userId} limit ${(page - 1) * limit}, ${page * limit} `;
         const res = await this.app.mysql.query(sql);
         // console.log(res.length);
 
